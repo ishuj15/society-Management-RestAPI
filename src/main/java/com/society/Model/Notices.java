@@ -1,6 +1,6 @@
-package com.Model;
+package com.society.Model;
 
-public class Visitor {
+public class Notices {
 	private String idNotices;
 	private String title;
 	private String message;
@@ -36,5 +36,11 @@ public class Visitor {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	@Override
+	public String toString() {
+		return "Notices [idNotices=" + idNotices + ", title=" + title + ", message=" + message + ", targetRole="
+				+ targetRole + ", date=" + date + "]";
+	}
 	
+
 }

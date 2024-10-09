@@ -1,4 +1,4 @@
-package com.Model;
+package com.society.Model;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;

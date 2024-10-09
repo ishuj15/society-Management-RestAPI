@@ -1,4 +1,4 @@
-package com.Model;
+package com.society.Model;
 
 import java.sql.Date;
 
@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class Alert {
-	
 	private String idAlert;
 	@NotNull
 	@Size(min=10)
@@ -39,5 +38,13 @@ public class Alert {
 	public void setTargetRole(String targetRole) {
 		this.targetRole = targetRole;
 	}
+	@Override
+	public String toString() {
+		return "Alert [idAlert=" + idAlert + ", message=" + message + ", date=" + date + ", targetRole=" + targetRole
+				+ "]";
+	}
+	
 	
 }
+	
+

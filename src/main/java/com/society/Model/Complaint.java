@@ -1,4 +1,4 @@
-package com.Model;
+package com.society.Model;
 
 import java.sql.Date;
 
