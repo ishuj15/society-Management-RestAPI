@@ -1,8 +1,11 @@
 package com.society.controller;
 
-import java.sql.SQLException;
+import java.sql.SQLException; 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -11,31 +14,51 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.society.Model.ApiResponseStatus;
 import com.society.Model.Services;
-import com.society.service.ServicesService;
+import com.society.constants.ApiMessages;
+import com.society.dto.ApiResponseHandler;
+import com.society.serviceImp.ServicesService;
+import com.society.util.Helper;
 @RestController
 public class ServicesController {
+	@Autowired
 	private ServicesService servicesService;
+	
 	@PostMapping(path="/service")
-	public void createService(@RequestBody  Services service) throws ClassNotFoundException, SQLException {
+	public ResponseEntity<Object> createService(@RequestBody  Services service) throws ClassNotFoundException, SQLException {
+		service.setIdServices(Helper.generateUniqueId());
 		servicesService.createService(service);
+		
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.SERVICE_CREATED,  null);
+
 		
 	}
 	@GetMapping(path="/services")
-	public List<Services> retriveAllServices() throws ClassNotFoundException, SQLException{
-		return servicesService.retriveAllServices();
+	public ResponseEntity<Object> retriveAllServices() throws ClassNotFoundException, SQLException{
+		 List<Services> list =  servicesService.retriveAllServices();
+		
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
+
 	}
 	@GetMapping(path="/services/{userId}")
-	public List<Services> retriveServiceByUser(@PathVariable String userId)throws ClassNotFoundException, SQLException {
-		return servicesService.retriveServiceByUser(userId);
+	public ResponseEntity<Object> retriveServiceByUser(@PathVariable String userId)throws ClassNotFoundException, SQLException {
+		 List<Services> list = servicesService.retriveServiceByUser(userId);
+		
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
+
 	}
-	@PatchMapping(path="/service/{id}")
-	public List<String> updateService(@PathVariable String id)throws ClassNotFoundException, SQLException {
+	@PatchMapping(path="/service/{serviceId}")
+	public ResponseEntity<Object> updateService(@PathVariable String serviceId)throws ClassNotFoundException, SQLException {
 		//will be implement later
-		return null;
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.SERVICE_UPDATED,   null);
+
 	}
 	@DeleteMapping(path="/service/{serviceId}")
-	public void deleteServiceById(@PathVariable String serviceId) throws ClassNotFoundException, SQLException{
+	public ResponseEntity<Object> deleteServiceById(@PathVariable String serviceId) throws ClassNotFoundException, SQLException{
 		servicesService.deleteServiceById(serviceId);
+		
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.SERVICE_DELETED,   null);
+
 	}
 }

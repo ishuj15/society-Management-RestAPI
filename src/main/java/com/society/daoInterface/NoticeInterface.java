@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.society.Model.Notices;
-import com.society.Model.Services;
 
 public interface NoticeInterface {
 	public boolean addNotice(Notices notice) throws SQLException, ClassNotFoundException;

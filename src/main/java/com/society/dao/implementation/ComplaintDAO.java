@@ -31,11 +31,17 @@ public class ComplaintDAO extends GenericDAO<Complaint> implements ComplaintInte
 		return executeQuery(sqlQuery);
 	}
 
-	public List<Complaint> getComplaintById(String userId) throws SQLException, ClassNotFoundException {
+	public List<Complaint> getComplaintsByuserId(String userId) throws SQLException, ClassNotFoundException {
 		String sqlQuery = "SELECT * FROM complaint WHERE idUser = \"" + userId + "\"";
 		return executeGetAllQuery(sqlQuery);
 	}
 
+	public Complaint getComplaintByComplaintId(String complaintId) throws SQLException, ClassNotFoundException {
+		String sqlQuery = "SELECT * FROM complaint WHERE idcomplaint = \"" + complaintId + "\"";
+		return executeGetQuery(sqlQuery);
+	}
+
+	
 	public List<Complaint> getAllComplaints() throws SQLException, ClassNotFoundException {
 		String sqlQuery = "SELECT * FROM complaint";
 		return executeGetAllQuery(sqlQuery);

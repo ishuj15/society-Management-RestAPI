@@ -46,6 +46,12 @@ public class NoticesDAO extends GenericDAO<Notices> implements NoticeInterface {
 		String sqlQuery = "DELETE FROM notices WHERE idNotices = \"" + noticeId + "\"";
 		return executeQuery(sqlQuery);
 	}
+	
+	public Notices getNoticeByNoticeId(String noticeId) throws SQLException, ClassNotFoundException {
+		String sqlQuery = "SELECT * FROM notices WHERE idNotices = \"" + noticeId + "\"";
+		return executeGetQuery(sqlQuery);
+	}
+
 
 	public boolean updateNotice(String userId, String columnToUpdate, String newValue)
 			throws SQLException, ClassNotFoundException {

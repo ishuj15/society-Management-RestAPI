@@ -3,7 +3,6 @@ package com.society.daoInterface;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.society.Model.Notices;
 import com.society.Model.Services;
 
 public interface ServiceInterface {

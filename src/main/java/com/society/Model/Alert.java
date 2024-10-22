@@ -38,12 +38,6 @@ public class Alert {
 	public void setTargetRole(String targetRole) {
 		this.targetRole = targetRole;
 	}
-	@Override
-	public String toString() {
-		return "Alert [idAlert=" + idAlert + ", message=" + message + ", date=" + date + ", targetRole=" + targetRole
-				+ "]";
-	}
-	
 	
 }
 	

@@ -3,6 +3,9 @@ package com.society.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,36 +15,51 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.society.Model.Alert;
-import com.society.service.AlertService;
+import com.society.Model.ApiResponseStatus;
+import com.society.constants.ApiMessages;
+import com.society.dto.ApiResponseHandler;
+import com.society.serviceImp.AlertService;
+import com.society.util.Helper;
 @RestController
 public class AlertController {
+	@Autowired
 	private AlertService alertService;
-	public AlertController(AlertService alertService)
-	{
-		this.alertService=alertService;
-	}
+
 	@PostMapping(path="/alert")
-	public void createAlert(@RequestBody  Alert alert) throws ClassNotFoundException, SQLException {
-		alertService.createAlert(alert);
+	public ResponseEntity<Object> createAlert(@RequestBody  Alert alert) throws ClassNotFoundException, SQLException {
+		alert.setIdAlert(Helper.generateUniqueId());
+		alertService.addAlert(alert);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.CREATED, ApiMessages.ALERT_CREATED,null);
 		}
+	
 	@GetMapping(path="/alerts")
-	public List<Alert> retriveAllAlert() throws ClassNotFoundException, SQLException {
-		return alertService.retriveAllAlerts();
-		
+	public ResponseEntity<Object> retriveAllAlert() throws ClassNotFoundException, SQLException {
+		List<Alert> list= alertService.retriveAllAlerts();
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
 	}
+	
 	@GetMapping(path="/alerts/{role}")
-	public List<Alert> retriveUserByRole(@PathVariable String role) throws ClassNotFoundException, SQLException {
-		return alertService.retriveAlertByRole(role);
-		
+	public ResponseEntity<Object> retriveAlertsByRole(@PathVariable String role) throws ClassNotFoundException, SQLException {
+		List<Alert> list= alertService.retriveAlertByRole(role);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
+
 	}
-	@PatchMapping(path="/alert/{id}")
-	public List<String> updateAlert(@RequestBody Alert alert) throws ClassNotFoundException, SQLException {
-		return alertService.updateAlert(alert);
-		
+	@GetMapping(path="/alert/{alertId}")
+	public ResponseEntity<Object> retriveAlertById(@PathVariable String alertId) throws ClassNotFoundException, SQLException {
+		Alert alert =alertService.getAlertById(alertId);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  alert);
+
 	}
-	@DeleteMapping(path="/alert/{id}")
-	public void deleteAlert(@PathVariable String id) throws ClassNotFoundException, SQLException {
-		alertService.deleteAlert(id);
-		
+	@PatchMapping(path="/alert/{alertId}")
+	public ResponseEntity<Object> updateAlert(@PathVariable String alertId,@RequestBody Alert alert) throws ClassNotFoundException, SQLException {
+		 alertService.updateAlert(alertId,alert);
+			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.ALERT_UPDATED,null);
+	}
+
+	@DeleteMapping(path="/alert/{alertId}")
+	public ResponseEntity<Object> deleteAlert(@PathVariable String alertId) throws ClassNotFoundException, SQLException {
+		alertService.deleteAlert(alertId);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.ALERT_DELETED,null);
+
 	}
 }

@@ -1,6 +1,6 @@
 package com.society.dao.implementation;
 
-import java.sql.ResultSet; 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -32,6 +32,11 @@ public class AlertDAO extends GenericDAO<Alert> implements AlertInterface {
 		String sqlQuery = "SELECT * FROM alert WHERE targetRole = '" + role + "' OR targetRole = 'all'";
 
 		return executeGetAllQuery(sqlQuery);
+	}
+	public Alert getAlertById(String alertId) throws SQLException, ClassNotFoundException {
+		String sqlQuery = "SELECT * FROM alert WHERE idAlert = \"" + alertId + "\"";
+
+		return executeGetQuery(sqlQuery);
 	}
  
 	public List<Alert> getAllAlerts() throws SQLException, ClassNotFoundException {
