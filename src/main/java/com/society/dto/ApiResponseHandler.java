@@ -23,8 +23,5 @@ public class ApiResponseHandler {
 			Object data, Integer page, Integer size, Integer totalItems, Integer totalPages) {
 		ApiResponse apiResponse = new ApiResponse(status, message, data, page, size, totalItems, totalPages);
 		return new ResponseEntity<>(apiResponse, statusCode);
-	}
-	
-	
+	}		
 }
- 

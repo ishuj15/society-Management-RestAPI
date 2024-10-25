@@ -14,7 +14,7 @@ public class ApiError {
 	private String details;
 	private Object errors; 
 	private String description;
-
+ 
 	public ApiError(LocalDateTime timestamp, String message, String details) {
 		this.timestamp = timestamp;
 		this.message = message;

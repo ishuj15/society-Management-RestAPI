@@ -17,7 +17,7 @@ public abstract class GenericDAO<T> {
 		try {
 			this.connection = DbConnection.getConnection();
 		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
@@ -46,6 +46,7 @@ public abstract class GenericDAO<T> {
 		}
 		return entities;
 	}
+
 
 	public boolean executeQuery(String query) throws SQLException, ClassNotFoundException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

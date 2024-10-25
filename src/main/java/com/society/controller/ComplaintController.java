@@ -20,13 +20,15 @@ import com.society.constants.ApiMessages;
 import com.society.dto.ApiResponseHandler;
 import com.society.serviceImp.ComplaintService;
 import com.society.util.Helper;
+
+import jakarta.validation.Valid;
 @RestController
 public class ComplaintController {
 	@Autowired
 	private ComplaintService complaintService;
 
 	@PostMapping(path ="/complaint")
-	public ResponseEntity<Object> createComplaint(@RequestBody Complaint complaint) throws ClassNotFoundException, SQLException {
+	public ResponseEntity<Object> createComplaint(@Valid @RequestBody Complaint complaint) throws ClassNotFoundException, SQLException {
 		complaint.setIdComplaint(Helper.generateUniqueId());
 		complaintService.createComplaint(complaint);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.COMPLAINT_CREATED,  null);

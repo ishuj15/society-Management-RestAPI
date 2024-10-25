@@ -20,7 +20,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.society.Model.Alert;
 import com.society.dao.implementation.AlertDAO;
-import com.society.exceptions.AlertNotFoundException;
+import com.society.exceptions.AlertsException;
 import com.society.serviceImp.AlertService;
 import com.society.util.Helper;
 
@@ -53,8 +53,8 @@ public class AlertServiceTesting {
 
         when(alertDao.addAlert(alert)).thenReturn(false);
 
-        assertThrows(AlertNotFoundException.class, () -> alertService.addAlert(alert));
-    }
+        assertThrows(AlertsException.class, () -> alertService.addAlert(alert));
+    } 
 
     @Test
     public void testRetrieveAllAlerts_Success() throws SQLException, ClassNotFoundException {
@@ -69,7 +69,7 @@ public class AlertServiceTesting {
     public void testRetrieveAllAlerts_Failure() throws SQLException, ClassNotFoundException {
         when(alertDao.getAllAlerts()).thenReturn(Collections.emptyList());
 
-        assertThrows(AlertNotFoundException.class, () -> alertService.retriveAllAlerts());
+        assertThrows(AlertsException.class, () -> alertService.retriveAllAlerts());
     }
 
     @Test
@@ -86,9 +86,9 @@ public class AlertServiceTesting {
     public void testRetrieveAlertByRole_Failure() throws SQLException, ClassNotFoundException {
         String role = "guard";
         when(alertDao.getAlertByRole(role)).thenReturn(Collections.emptyList());
-        when(Helper.isValidTarget(role)).thenReturn(false);
+       // when(Helper.isValidTarget(role)).thenReturn(false);
 
-        assertThrows(AlertNotFoundException.class, () -> alertService.retriveAlertByRole(role));
+        assertThrows(AlertsException.class, () -> alertService.retriveAlertByRole(role));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class AlertServiceTesting {
         // Set alert properties here...
 
         when(alertDao.getAlertById(alertId)).thenReturn(alert);
-        doNothing().when(alertDao).updateAlert(eq(alertId), anyString(), anyString());
+        when(alertDao.updateAlert(eq(alertId), anyString(), anyString())).thenReturn(true);
 
         assertDoesNotThrow(() -> alertService.updateAlert(alertId, alert));
     }
@@ -111,7 +111,7 @@ public class AlertServiceTesting {
 
         when(alertDao.getAlertById(alertId)).thenReturn(null);
 
-        assertThrows(AlertNotFoundException.class, () -> alertService.updateAlert(alertId, alert));
+        assertThrows(AlertsException.class, () -> alertService.updateAlert(alertId, alert));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class AlertServiceTesting {
 
         when(alertDao.deleteAlert(alertId)).thenReturn(false);
 
-        assertThrows(AlertNotFoundException.class, () -> alertService.deleteAlert(alertId));
+        assertThrows(AlertsException.class, () -> alertService.deleteAlert(alertId));
     }
 
     @Test
@@ -150,7 +150,7 @@ public class AlertServiceTesting {
 
         when(alertDao.getAlertById(alertId)).thenReturn(null);
 
-        assertThrows(AlertNotFoundException.class, () -> alertService.getAlertById(alertId));
+        assertThrows(AlertsException.class, () -> alertService.getAlertById(alertId));
     }
 }
 

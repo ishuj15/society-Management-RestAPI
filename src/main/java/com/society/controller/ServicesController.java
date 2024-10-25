@@ -1,6 +1,6 @@
 package com.society.controller;
 
-import java.sql.SQLException; 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +20,22 @@ import com.society.constants.ApiMessages;
 import com.society.dto.ApiResponseHandler;
 import com.society.serviceImp.ServicesService;
 import com.society.util.Helper;
+
+import jakarta.validation.Valid;
 @RestController
 public class ServicesController {
 	@Autowired
 	private ServicesService servicesService;
 	
 	@PostMapping(path="/service")
-	public ResponseEntity<Object> createService(@RequestBody  Services service) throws ClassNotFoundException, SQLException {
+	public ResponseEntity<Object> createService(@Valid @RequestBody  Services service) throws ClassNotFoundException, SQLException {
 		service.setIdServices(Helper.generateUniqueId());
 		servicesService.createService(service);
 		
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.SERVICE_CREATED,  null);
 
 		
-	}
+	} 
 	@GetMapping(path="/services")
 	public ResponseEntity<Object> retriveAllServices() throws ClassNotFoundException, SQLException{
 		 List<Services> list =  servicesService.retriveAllServices();

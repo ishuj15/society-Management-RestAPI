@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.society.Model.Visitor;
 import com.society.dao.implementation.VisitorDAO;
-import com.society.exceptions.VisitorNotFoundException;
+import com.society.exceptions.VisitorException;
 import com.society.serviceImp.VisitorService;
 
 public class VisitorServicesTesting {
@@ -49,7 +49,7 @@ public class VisitorServicesTesting {
 
         when(visitorDao.addVisitor(visitor)).thenReturn(false);
 
-        assertThrows(VisitorNotFoundException.class, () -> visitorService.createVisitor(visitor));
+        assertThrows(VisitorException.class, () -> visitorService.createVisitor(visitor));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class VisitorServicesTesting {
     public void testRetrieveAllVisitors_Failure() throws SQLException, ClassNotFoundException {
         when(visitorDao.getAllVisitors()).thenReturn(Collections.emptyList());
 
-        assertThrows(VisitorNotFoundException.class, () -> visitorService.retriveAllVisitors());
+        assertThrows(VisitorException.class, () -> visitorService.retriveAllVisitors());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class VisitorServicesTesting {
         String userId = "user1";
         when(visitorDao.getVisitorById(userId)).thenReturn(Collections.emptyList());
 
-        assertThrows(VisitorNotFoundException.class, () -> visitorService.retriveVisitorByUser(userId));
+        assertThrows(VisitorException.class, () -> visitorService.retriveVisitorByUser(userId));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class VisitorServicesTesting {
 
         when(visitorDao.deleteVisitor(visitorId)).thenReturn(false);
 
-        assertThrows(VisitorNotFoundException.class, () -> visitorService.deleteVisitorById(visitorId));
+        assertThrows(VisitorException.class, () -> visitorService.deleteVisitorById(visitorId));
     }
 
     @Test
@@ -121,7 +121,7 @@ public class VisitorServicesTesting {
         String status = "pending";
         when(visitorDao.getAllpendingRequests(userId, status)).thenReturn(Collections.emptyList());
 
-        assertThrows(VisitorNotFoundException.class, () -> visitorService.getAllPendingRequests(userId, status));
+        assertThrows(VisitorException.class, () -> visitorService.getAllPendingRequests(userId, status));
     }
 }
 

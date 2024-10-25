@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.society.Model.Visitor;
 import com.society.constants.ApiMessages;
 import com.society.dao.implementation.VisitorDAO;
-import com.society.exceptions.VisitorNotFoundException;
+import com.society.exceptions.VisitorException;
 import com.society.serviceInterface.VisitorServiceInterface;
 
 @Service
@@ -17,16 +17,17 @@ public class VisitorService implements VisitorServiceInterface {
 	@Autowired
 	public VisitorDAO visitorDao;
 	@Override
-	public void createVisitor(Visitor visitor) throws ClassNotFoundException, SQLException {
+	public boolean createVisitor(Visitor visitor) throws ClassNotFoundException, SQLException {
 		if(!visitorDao.addVisitor(visitor))
-			throw new VisitorNotFoundException(ApiMessages.UNABLE_TO_CREATE_VISITOR);
+			throw new VisitorException(ApiMessages.UNABLE_TO_CREATE_VISITOR);
+		return true;
 
 	}
 	@Override
 	public List<Visitor> retriveAllVisitors() throws ClassNotFoundException, SQLException  {
 		List<Visitor> list= visitorDao.getAllVisitors();
 		if(list.isEmpty())
-			throw new VisitorNotFoundException(ApiMessages.VISITOR_NOT_FOUND);
+			throw new VisitorException(ApiMessages.VISITOR_NOT_FOUND);
 			
 		else
 			return list;
@@ -36,19 +37,22 @@ public class VisitorService implements VisitorServiceInterface {
 		List<Visitor> list= visitorDao.getVisitorById(userId);
 		
 		if(list.isEmpty())
-			throw new VisitorNotFoundException(ApiMessages.VISITOR_NOT_FOUND);
+			throw new VisitorException(ApiMessages.VISITOR_NOT_FOUND);
 			
 		else
 			return list;
 	} 
 	@Override
-	public void updateVisitor() throws ClassNotFoundException, SQLException  {
+	public boolean updateVisitor() throws ClassNotFoundException, SQLException  {
 		//not now
+		return true;
+
 	}
 	@Override
-	public void deleteVisitorById(String visitorId) throws ClassNotFoundException, SQLException  {
+	public boolean deleteVisitorById(String visitorId) throws ClassNotFoundException, SQLException  {
 		if(!visitorDao.deleteVisitor(visitorId))
-			throw new VisitorNotFoundException(ApiMessages.UNABLE_TO_DELETE_VISITOR);
+			throw new VisitorException(ApiMessages.UNABLE_TO_DELETE_VISITOR);
+		return true;
 
 	}
 	@Override
@@ -56,7 +60,7 @@ public class VisitorService implements VisitorServiceInterface {
 		List<Visitor> list= visitorDao.getAllpendingRequests(userId, status);
 		
 		if(list.isEmpty())
-			throw new VisitorNotFoundException(ApiMessages.VISITOR_NOT_FOUND);
+			throw new VisitorException(ApiMessages.VISITOR_NOT_FOUND);
 			
 		else
 			return list;

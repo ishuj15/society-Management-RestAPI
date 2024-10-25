@@ -4,13 +4,17 @@ public class ApiMessages {
 	public static final String INVALID_CREDENTIALS_MESSAGE = "Incorrect username or password.";
 	public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
 	public static final String UNEXPECTED_ERROR_MESSAGE = "An unexpected error occurred";
-	public static final String LOGGED_IN_SUCCESSFULLY = "Logged in successfully.";
-	public static final String LOGGED_OUT_SUCCESSFULLY = "Logged out successfully.";
 	public static final String BAD_REQUEST_MESSAGE = "Bad Request.";
 	public static final String INVALID_REQUEST = "Invalid Request.";
 	public static final String ACESS_DENIED_ERROR = "You do not have permission to access this resouce.";
 	public static final String INVALID_PAGE_NUMBER_OR_LIMIT = "Invalid page number or limit.";
 	public static final String PAGE_NUMBER_AND_LIMIT_MUST_BE_POSITIVE = "Page number and limit must be greater than 0.";
+	
+	//Log in and log out
+	public static final String LOGGED_IN_SUCCESSFULLY = "Logged in successfully.";
+	public static final String LOGGED_OUT_SUCCESSFULLY = "Logged out successfully.";
+	
+	
 	
 	public static final String TARGET_ROLE="targetRole";
 	public static final String MESSAGE="message";

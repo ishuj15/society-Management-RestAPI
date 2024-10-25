@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.society.Model.Services;
 import com.society.constants.ApiMessages;
 import com.society.controller.ServicesController;
-import com.society.exceptions.ServiceNotFoundException;
+import com.society.exceptions.ServiceException;
 import com.society.serviceImp.ServicesService;
 
 public class ServiceControllerTesting {
@@ -65,7 +65,7 @@ public class ServiceControllerTesting {
         Services service = new Services();
         // Set service properties here...
 
-        doThrow(new ServiceNotFoundException(ApiMessages.UNABLE_TO_CREATE_SERVICE))
+        doThrow(new ServiceException(ApiMessages.UNABLE_TO_CREATE_SERVICE))
             .when(servicesService).createService(any(Services.class));
 
         mockMvc.perform(post("/service")
@@ -92,7 +92,7 @@ public class ServiceControllerTesting {
 
     @Test
     public void testRetrieveAllServices_Failure() throws Exception {
-        when(servicesService.retriveAllServices()).thenThrow(new ServiceNotFoundException(ApiMessages.SERVICE_NOT_FOUND));
+        when(servicesService.retriveAllServices()).thenThrow(new ServiceException(ApiMessages.SERVICE_NOT_FOUND));
 
         mockMvc.perform(get("/services"))
                 .andExpect(status().isInternalServerError())
@@ -118,7 +118,7 @@ public class ServiceControllerTesting {
     @Test
     public void testRetrieveServiceByUser_Failure() throws Exception {
         String userId = "user1";
-        when(servicesService.retriveServiceByUser(userId)).thenThrow(new ServiceNotFoundException(ApiMessages.SERVICE_NOT_FOUND));
+        when(servicesService.retriveServiceByUser(userId)).thenThrow(new ServiceException(ApiMessages.SERVICE_NOT_FOUND));
 
         mockMvc.perform(get("/services/{userId}", userId))
                 .andExpect(status().isInternalServerError())
@@ -153,7 +153,7 @@ public class ServiceControllerTesting {
     public void testDeleteServiceById_Failure() throws Exception {
         String serviceId = "service1";
 
-        doThrow(new ServiceNotFoundException(ApiMessages.UNABLE_TO_DELETE_SERVICE))
+        doThrow(new ServiceException(ApiMessages.UNABLE_TO_DELETE_SERVICE))
             .when(servicesService).deleteServiceById(serviceId);
 
         mockMvc.perform(delete("/service/{serviceId}", serviceId))

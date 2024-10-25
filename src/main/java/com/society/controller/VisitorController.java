@@ -21,13 +21,15 @@ import com.society.constants.ApiMessages;
 import com.society.dto.ApiResponseHandler;
 import com.society.serviceImp.VisitorService;
 import com.society.util.Helper;
+
+import jakarta.validation.Valid;
 @RestController
 public class VisitorController {
 	@Autowired 
 	private VisitorService visitorService;
 	
 	@PostMapping(path="/visitor")
-	public  ResponseEntity<Object> createVisitor(@RequestBody Visitor visitor) throws ClassNotFoundException, SQLException {
+	public  ResponseEntity<Object> createVisitor(@Valid @RequestBody Visitor visitor) throws ClassNotFoundException, SQLException {
 		visitor.setIdVisitor(Helper.generateUniqueId());
 		visitorService.createVisitor(visitor);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.VISITOR_CREATED,  null);

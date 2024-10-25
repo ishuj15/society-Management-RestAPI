@@ -47,9 +47,12 @@ public class UserDAO extends GenericDAO<User> implements UserInterface {
 		return executeQuery(sqlQuery);
 	}
 
-	public List<User> getAllUsers() throws SQLException, ClassNotFoundException {
-		String sqlQuery = "SELECT * FROM user";
-		return executeGetAllQuery(sqlQuery);
+	public List<User> getAllUsers(int offset,int limit) throws SQLException, ClassNotFoundException {
+		String sqlQuery = "SELECT * FROM user LIMIT " + limit + " OFFSET " + offset;
+		//String query = "SELECT * FROM account LIMIT ? OFFSET ?";
+      //  return executeGetAllQuery(query, limit, offset);
+//		String sqlQuery = "SELECT * FROM user";
+		return executeGetAllQuery(sqlQuery);	
 	}
 	public boolean updateUser(String userId, String columnToUpdate, String newValue)
 			throws SQLException, ClassNotFoundException {
@@ -57,5 +60,6 @@ public class UserDAO extends GenericDAO<User> implements UserInterface {
 				userId);
 		return executeQuery(sqlQuery);
 	}
+	
 
 }

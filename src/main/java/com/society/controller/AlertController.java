@@ -18,20 +18,34 @@ import com.society.Model.Alert;
 import com.society.Model.ApiResponseStatus;
 import com.society.constants.ApiMessages;
 import com.society.dto.ApiResponseHandler;
+import com.society.exceptions.AlertsException;
 import com.society.serviceImp.AlertService;
 import com.society.util.Helper;
+
+import jakarta.validation.Valid;
 @RestController
 public class AlertController {
 	@Autowired
 	private AlertService alertService;
+	
 
 	@PostMapping(path="/alert")
-	public ResponseEntity<Object> createAlert(@RequestBody  Alert alert) throws ClassNotFoundException, SQLException {
-		alert.setIdAlert(Helper.generateUniqueId());
-		alertService.addAlert(alert);
+	public ResponseEntity<Object> createAlert( @Valid @RequestBody  Alert alert) throws ClassNotFoundException, SQLException {
+		//alert.setIdAlert(Helper.generateUniqueId());
+		
+			try {
+				alertService.addAlert(alert);
+			} catch (AlertsException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.CREATED, ApiMessages.ALERT_CREATED,null);
 		}
-	
+	 
 	@GetMapping(path="/alerts")
 	public ResponseEntity<Object> retriveAllAlert() throws ClassNotFoundException, SQLException {
 		List<Alert> list= alertService.retriveAllAlerts();
@@ -52,13 +66,26 @@ public class AlertController {
 	}
 	@PatchMapping(path="/alert/{alertId}")
 	public ResponseEntity<Object> updateAlert(@PathVariable String alertId,@RequestBody Alert alert) throws ClassNotFoundException, SQLException {
-		 alertService.updateAlert(alertId,alert);
+		 
+		 try {
+				alertService.updateAlert(alertId,alert);
+			} catch (AlertsException e ) {
+				e.printStackTrace();
+			} 
 			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.ALERT_UPDATED,null);
 	}
 
 	@DeleteMapping(path="/alert/{alertId}")
 	public ResponseEntity<Object> deleteAlert(@PathVariable String alertId) throws ClassNotFoundException, SQLException {
-		alertService.deleteAlert(alertId);
+		
+		try {
+			
+			alertService.deleteAlert(alertId);
+		} catch (AlertsException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.ALERT_DELETED,null);
 
 	}

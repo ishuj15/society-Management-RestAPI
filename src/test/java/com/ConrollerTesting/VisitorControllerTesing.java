@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.society.Model.Visitor;
 import com.society.constants.ApiMessages;
 import com.society.controller.VisitorController;
-import com.society.exceptions.VisitorNotFoundException;
+import com.society.exceptions.VisitorException;
 import com.society.serviceImp.VisitorService;
 
 public class VisitorControllerTesing {
@@ -62,7 +62,7 @@ public class VisitorControllerTesing {
         Visitor visitor = new Visitor();
         // Set visitor properties here...
 
-        doThrow(new VisitorNotFoundException(ApiMessages.UNABLE_TO_CREATE_VISITOR))
+        doThrow(new VisitorException(ApiMessages.UNABLE_TO_CREATE_VISITOR))
             .when(visitorService).createVisitor(visitor);
 
         mockMvc.perform(post("/visitor")
@@ -89,7 +89,7 @@ public class VisitorControllerTesing {
 
     @Test
     public void testRetrieveAllVisitors_Failure() throws Exception {
-        when(visitorService.retriveAllVisitors()).thenThrow(new VisitorNotFoundException(ApiMessages.VISITOR_NOT_FOUND));
+        when(visitorService.retriveAllVisitors()).thenThrow(new VisitorException(ApiMessages.VISITOR_NOT_FOUND));
 
         mockMvc.perform(get("/visitors"))
                 .andExpect(status().isInternalServerError())
@@ -115,7 +115,7 @@ public class VisitorControllerTesing {
     @Test
     public void testRetrieveVisitorByUser_Failure() throws Exception {
         String userId = "user1";
-        when(visitorService.retriveVisitorByUser(userId)).thenThrow(new VisitorNotFoundException(ApiMessages.VISITOR_NOT_FOUND));
+        when(visitorService.retriveVisitorByUser(userId)).thenThrow(new VisitorException(ApiMessages.VISITOR_NOT_FOUND));
 
         mockMvc.perform(get("/visitors/{userId}", userId))
                 .andExpect(status().isInternalServerError())
@@ -139,7 +139,7 @@ public class VisitorControllerTesing {
     public void testDeleteVisitorById_Failure() throws Exception {
         String visitorId = "visitor1";
 
-        doThrow(new VisitorNotFoundException(ApiMessages.UNABLE_TO_DELETE_VISITOR)).when(visitorService).deleteVisitorById(visitorId);
+        doThrow(new VisitorException(ApiMessages.UNABLE_TO_DELETE_VISITOR)).when(visitorService).deleteVisitorById(visitorId);
 
         mockMvc.perform(delete("/visitor/{visitorId}", visitorId))
                 .andExpect(status().isInternalServerError())

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.society.Model.Services;
 import com.society.constants.ApiMessages;
 import com.society.dao.implementation.ServicesDAO;
-import com.society.exceptions.ServiceNotFoundException;
+import com.society.exceptions.ServiceException;
 import com.society.serviceInterface.ServicesServiceInterface;
 
 @Service
@@ -17,15 +17,17 @@ public class ServicesService implements ServicesServiceInterface {
 	@Autowired
 	public ServicesDAO serviceDao;
 	@Override
-	public void createService(Services service) throws ClassNotFoundException, SQLException {
+	public boolean createService(Services service) throws ClassNotFoundException, SQLException {
 		if(!serviceDao.addService(service))
-			throw new ServiceNotFoundException(ApiMessages.UNABLE_TO_CREATE_SERVICE);
-	}
+			throw new ServiceException(ApiMessages.UNABLE_TO_CREATE_SERVICE);
+		return true;
+
+	} 
 	@Override
 	public List<Services> retriveAllServices() throws ClassNotFoundException, SQLException{
 		List<Services> list = serviceDao.getAllServices();
 		if(list.isEmpty())
-			throw new ServiceNotFoundException(ApiMessages.SERVICE_NOT_FOUND);
+			throw new ServiceException(ApiMessages.SERVICE_NOT_FOUND);
 		else 
 			return list;
 
@@ -34,19 +36,22 @@ public class ServicesService implements ServicesServiceInterface {
 	public List<Services> retriveServiceByUser(String userId) throws ClassNotFoundException, SQLException{
 		List<Services> list =  serviceDao.getServiceByUserId(userId);
 		if(list.isEmpty())
-			throw new ServiceNotFoundException(ApiMessages.SERVICE_NOT_FOUND);
+			throw new ServiceException(ApiMessages.SERVICE_NOT_FOUND);
 		else 
 			return list;
 
 	}
 	@Override
-	public void updateService()throws ClassNotFoundException, SQLException {
+	public boolean updateService()throws ClassNotFoundException, SQLException {
 		//will be implement later
+		return true;
+
 	}
 	@Override
-	public void deleteServiceById(String serviceId)throws ClassNotFoundException, SQLException {
+	public boolean deleteServiceById(String serviceId)throws ClassNotFoundException, SQLException {
 		if(!serviceDao.deleteService(serviceId))
-			throw new ServiceNotFoundException(ApiMessages.UNABLE_TO_DELETE_SERVICE);
+			throw new ServiceException(ApiMessages.UNABLE_TO_DELETE_SERVICE);
+		return true;
 
 	}
 }

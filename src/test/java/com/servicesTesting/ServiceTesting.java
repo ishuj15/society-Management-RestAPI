@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.society.Model.Services;
 import com.society.dao.implementation.ServicesDAO;
-import com.society.exceptions.ServiceNotFoundException;
+import com.society.exceptions.ServiceException;
 import com.society.serviceImp.ServicesService;
 
 public class ServiceTesting {
@@ -50,7 +50,7 @@ public class ServiceTesting {
 
         when(serviceDao.addService(service)).thenReturn(false);
 
-        assertThrows(ServiceNotFoundException.class, () -> servicesService.createService(service));
+        assertThrows(ServiceException.class, () -> servicesService.createService(service));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ServiceTesting {
     public void testRetrieveAllServices_Failure() throws SQLException, ClassNotFoundException {
         when(serviceDao.getAllServices()).thenReturn(Collections.emptyList());
 
-        assertThrows(ServiceNotFoundException.class, () -> servicesService.retriveAllServices());
+        assertThrows(ServiceException.class, () -> servicesService.retriveAllServices());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class ServiceTesting {
         String userId = "user1";
         when(serviceDao.getServiceByUserId(userId)).thenReturn(Collections.emptyList());
 
-        assertThrows(ServiceNotFoundException.class, () -> servicesService.retriveServiceByUser(userId));
+        assertThrows(ServiceException.class, () -> servicesService.retriveServiceByUser(userId));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class ServiceTesting {
 
         when(serviceDao.deleteService(serviceId)).thenReturn(false);
 
-        assertThrows(ServiceNotFoundException.class, () -> servicesService.deleteServiceById(serviceId));
+        assertThrows(ServiceException.class, () -> servicesService.deleteServiceById(serviceId));
     }
 }
 

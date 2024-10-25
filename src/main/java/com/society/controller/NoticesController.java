@@ -20,13 +20,15 @@ import com.society.constants.ApiMessages;
 import com.society.dto.ApiResponseHandler;
 import com.society.serviceImp.NoticeService;
 import com.society.util.Helper;
+
+import jakarta.validation.Valid;
 @RestController
 public class NoticesController {
 	@Autowired
 	public NoticeService noticeService;
 
 	@PostMapping(path="/notice")
-	public ResponseEntity<Object> createNotice(@RequestBody Notices notice) throws ClassNotFoundException, SQLException {
+	public ResponseEntity<Object> createNotice(@Valid @RequestBody Notices notice) throws ClassNotFoundException, SQLException {
 		notice.setIdNotices(Helper.generateUniqueId());
 		noticeService.createNotice(notice);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.NOTICE_CREATED,  null);

@@ -192,7 +192,7 @@ public class UserDaoTesting {
 
         when(preparedStatement.executeQuery()).thenReturn(resultSet);
 
-        List<User> result = userDAO.getAllUsers();
+        List<User> result = userDAO.getAllUsers(0,10);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -207,7 +207,7 @@ public class UserDaoTesting {
         when(preparedStatement.executeQuery()).thenThrow(new SQLException("Database error"));
 
         Exception exception = assertThrows(SQLException.class, () -> {
-            userDAO.getAllUsers();
+            userDAO.getAllUsers(0,5);
         });
 
         assertEquals("Database error", exception.getMessage());

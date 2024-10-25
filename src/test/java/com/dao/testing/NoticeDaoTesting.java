@@ -85,7 +85,7 @@ public class NoticeDaoTesting {
     @Test
     public void testGetNoticeByRoleSuccess() throws SQLException, ClassNotFoundException {
         when(resultSet.next()).thenReturn(true).thenReturn(false);
-        when(resultSet.getString("IdNotices")).thenReturn("1");
+        when(resultSet.getString("idNotices")).thenReturn("1");
         when(resultSet.getString("title")).thenReturn("Notice Title");
         when(resultSet.getString("message")).thenReturn("Notice Message");
         when(resultSet.getString("date")).thenReturn("2024-09-12");
@@ -120,9 +120,7 @@ public class NoticeDaoTesting {
     public void testGetNoticeByRoleFailure() throws SQLException {
         when(preparedStatement.executeQuery()).thenThrow(new SQLException("Database error"));
 
-        Exception exception = assertThrows(SQLException.class, () -> {
-            noticesDAO.getNoticeByRole("resident");
-        });
+        Exception exception = assertThrows(SQLException.class, () -> noticesDAO.getNoticeByRole("resident"));
 
         assertEquals("Database error", exception.getMessage());
     }
@@ -131,7 +129,7 @@ public class NoticeDaoTesting {
     public void testGetAllNoticesSuccess() throws SQLException, ClassNotFoundException {
         when(resultSet.next()).thenReturn(true).thenReturn(true).thenReturn(false);
 
-        when(resultSet.getString("IdNotices")).thenReturn("1").thenReturn("2");
+        when(resultSet.getString("idNotices")).thenReturn("1").thenReturn("2");
         when(resultSet.getString("title")).thenReturn("Notice Title").thenReturn("Another Notice");
         when(resultSet.getString("message")).thenReturn("Notice Message").thenReturn("Another Message");
         when(resultSet.getString("date")).thenReturn("2024-09-12").thenReturn("2024-09-13");
@@ -153,9 +151,7 @@ public class NoticeDaoTesting {
     public void testGetAllNoticesFailure() throws SQLException {
         when(preparedStatement.executeQuery()).thenThrow(new SQLException("Database error"));
 
-        Exception exception = assertThrows(SQLException.class, () -> {
-            noticesDAO.getAllNotices();
-        });
+        Exception exception = assertThrows(SQLException.class, () ->   noticesDAO.getAllNotices()  );
 
         assertEquals("Database error", exception.getMessage());
     }
@@ -198,5 +194,21 @@ public class NoticeDaoTesting {
         assertFalse(result);
         verify(preparedStatement).executeUpdate();
     }
+    //@Test
+//    public void testGetNoticeByIdSuccess() throws SQLException, ClassNotFoundException {
+//    	when(resultSet.next()).thenReturn(true).thenReturn(false);
+//        when(resultSet.getString("idNotices")).thenReturn("1");
+//        when(resultSet.getString("title")).thenReturn("Notice Title");
+//        when(resultSet.getString("message")).thenReturn("Notice Message");
+//        when(resultSet.getString("date")).thenReturn("2024-09-12");
+//        when(resultSet.getString("targetRole")).thenReturn("resident");
+//
+//        when(preparedStatement.executeGetQuery("1")).thenReturn(resultSet);
+//
+//        noticesDAO.getNoticeByNoticeId("1");
+// 
+////        assertFalse(result);
+//      verify(preparedStatement).executeUpdate();
+//    }
 }
 

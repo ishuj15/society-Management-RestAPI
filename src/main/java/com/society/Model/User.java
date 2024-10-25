@@ -16,8 +16,11 @@ public class User {
 	private String userName;
 	//@NotNull(message="Invalid role")
 	private String userRole;
-	@Size(min=8)
-	@Pattern(regexp = "^?=.*[A-Z]?=.*[a-z]?=.*[0-9]?=.*[(@#$%^&+=).].*$")
+	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%^&+=]).{8,}$",
+	         message = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.")
+
+//	@Pattern(regexp = "^?=.*[A-Z]?=.*[a-z]?=.*[0-9]?=.*[(@#$%^&+=).].*$")
+//	@Size(min=8)
 	private String password;
 	@Digits(fraction = 0, integer = 10)
 	private String phoneNo;
@@ -66,6 +69,11 @@ public class User {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	@Override
+	public String toString() {
+		return "User [idUser=" + idUser + ", userName=" + userName + ", userRole=" + userRole + ", password=" + password
+				+ ", phoneNo=" + phoneNo + ", email=" + email + ", address=" + address + "]";
 	}
 	
 	

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.society.Model.Notices;
 import com.society.constants.ApiMessages;
 import com.society.dao.implementation.NoticesDAO;
-import com.society.exceptions.NoticeNotFoundException;
+import com.society.exceptions.NoticeException;
 import com.society.serviceInterface.NoticesServiceInterface;
 
 @Service
@@ -17,15 +17,17 @@ public class NoticeService implements NoticesServiceInterface {
 	@Autowired
 	public NoticesDAO noticeDao ;
 	@Override
-	public void createNotice(Notices notice) throws ClassNotFoundException, SQLException {
+	public boolean createNotice(Notices notice) throws ClassNotFoundException, SQLException {
 	if(!noticeDao.addNotice(notice))
-		throw new NoticeNotFoundException(ApiMessages.UNABLE_TO_CREATE_NOTICE);
+		throw new NoticeException(ApiMessages.UNABLE_TO_CREATE_NOTICE);
+	return true;
+
 	}
 	@Override
 	public List<Notices> getAllNotices()throws ClassNotFoundException, SQLException  {
 		List<Notices> notices = noticeDao.getAllNotices();
 		if(notices.isEmpty())
-			throw new NoticeNotFoundException(ApiMessages.NOTICE_NOT_FOUND);
+			throw new NoticeException(ApiMessages.NOTICE_NOT_FOUND);
 		else
 			return notices;
 			
@@ -34,7 +36,7 @@ public class NoticeService implements NoticesServiceInterface {
 	public List<Notices> getNoticeByRole(String role)throws ClassNotFoundException, SQLException  {
 		List<Notices> notices = noticeDao.getNoticeByRole(role);
 		if(notices.isEmpty())
-			throw new NoticeNotFoundException(ApiMessages.NOTICE_NOT_FOUND);
+			throw new NoticeException(ApiMessages.NOTICE_NOT_FOUND);
 		else
 			return notices;
 	}
@@ -43,17 +45,17 @@ public class NoticeService implements NoticesServiceInterface {
 	public Notices getNoticeByNoticeId(String noticeId) throws ClassNotFoundException, SQLException {
 		Notices notice=noticeDao.getNoticeByNoticeId(noticeId); 
 		if(notice==null)
-			throw new NoticeNotFoundException(ApiMessages.NOTICE_NOT_FOUND);
+			throw new NoticeException(ApiMessages.NOTICE_NOT_FOUND);
 		
 		return notice;
 
 	}
 	@Override
-	public void updateNotice(String noticeId,Notices notice)throws ClassNotFoundException, SQLException  {
+	public boolean updateNotice(String noticeId,Notices notice)throws ClassNotFoundException, SQLException  {
 		Notices existingnotice= noticeDao.getNoticeByNoticeId(noticeId);
 		
 		if(existingnotice==null)
-			throw new NoticeNotFoundException(ApiMessages.UNABLE_TO_UPDATE_NOTICE);
+			throw new NoticeException(ApiMessages.UNABLE_TO_UPDATE_NOTICE);
 		
 		else
 		{
@@ -73,13 +75,16 @@ public class NoticeService implements NoticesServiceInterface {
 			{
 				noticeDao.updateNotice(noticeId, "title", notice.getTitle());
 			}
+			return true;
+
 		}
 		
 	}
 	@Override
-	public void deleteNotice(String noticeId) throws ClassNotFoundException, SQLException {
+	public boolean deleteNotice(String noticeId) throws ClassNotFoundException, SQLException {
 		if(noticeDao.deleteNotice(noticeId))
-			throw new NoticeNotFoundException(ApiMessages.UNABLE_TO_DELETE_NOTICE);
+			throw new NoticeException(ApiMessages.UNABLE_TO_DELETE_NOTICE);
+		return true;
 
 	}
 

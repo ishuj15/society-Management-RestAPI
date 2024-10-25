@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.society.Model.Complaint;
 import com.society.constants.ApiMessages;
 import com.society.controller.ComplaintController;
-import com.society.exceptions.ComplaintNotFoundException;
+import com.society.exceptions.ComplaintException;
 import com.society.serviceImp.ComplaintService;
 
 public class ComplaintControllerTest {
@@ -107,7 +107,7 @@ public class ComplaintControllerTest {
     // 4. Test retrieve all complaints when no data found
     @Test
     public void retrieveAllComplaints_empty() throws Exception {
-        when(complaintService.retriveAllComplaint()).thenThrow(new ComplaintNotFoundException(ApiMessages.NO_COMPLAINT_TO_DISPLAY));
+        when(complaintService.retriveAllComplaint()).thenThrow(new ComplaintException(ApiMessages.NO_COMPLAINT_TO_DISPLAY));
 
         mockMvc.perform(get("/complaints"))
                 .andExpect(status().isNotFound())
@@ -127,7 +127,7 @@ public class ComplaintControllerTest {
     // 6. Test retrieve complaints by user ID when no complaints exist
     @Test
     public void retrieveComplaintsByUser_empty() throws Exception {
-        when(complaintService.retriveComplaintByUser("user123")).thenThrow(new ComplaintNotFoundException(ApiMessages.NO_COMPLAINT_TO_DISPLAY));
+        when(complaintService.retriveComplaintByUser("user123")).thenThrow(new ComplaintException(ApiMessages.NO_COMPLAINT_TO_DISPLAY));
 
         mockMvc.perform(get("/complaints/user123"))
                 .andExpect(status().isNotFound())
@@ -147,7 +147,7 @@ public class ComplaintControllerTest {
     // 8. Test retrieve complaint by complaint ID when complaint is not found
     @Test
     public void retrieveComplaintByComplaintId_notFound() throws Exception {
-        when(complaintService.getComplaintByComplaintId("1")).thenThrow(new ComplaintNotFoundException(ApiMessages.COMPLAINT_NOT_FOUND));
+        when(complaintService.getComplaintByComplaintId("1")).thenThrow(new ComplaintException(ApiMessages.COMPLAINT_NOT_FOUND));
 
         mockMvc.perform(get("/complaint/1"))
                 .andExpect(status().isNotFound())
@@ -169,7 +169,7 @@ public class ComplaintControllerTest {
     // 10. Test update complaint when complaint ID is not found
     @Test
     public void updateComplaint_failure() throws Exception {
-        doThrow(new ComplaintNotFoundException(ApiMessages.UNABLE_TO_UPDATE_COMPLAINT))
+        doThrow(new ComplaintException(ApiMessages.UNABLE_TO_UPDATE_COMPLAINT))
                 .when(complaintService).updateComplaint(anyString(), any(Complaint.class));
 
         mockMvc.perform(patch("/complaint/1")
@@ -192,7 +192,7 @@ public class ComplaintControllerTest {
     // 12. Test delete complaint when complaint ID is not found
     @Test
     public void deleteComplaint_failure() throws Exception {
-        doThrow(new ComplaintNotFoundException(ApiMessages.COMPLIANT_DELETED))
+        doThrow(new ComplaintException(ApiMessages.COMPLIANT_DELETED))
                 .when(complaintService).deleteComplaint("1");
 
         mockMvc.perform(delete("/complaint/1"))

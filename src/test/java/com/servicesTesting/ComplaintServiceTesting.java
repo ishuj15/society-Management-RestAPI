@@ -23,7 +23,7 @@ import org.mockito.MockitoAnnotations;
 import com.society.Model.Complaint;
 import com.society.constants.ApiMessages;
 import com.society.dao.implementation.ComplaintDAO;
-import com.society.exceptions.ComplaintNotFoundException;
+import com.society.exceptions.ComplaintException;
 import com.society.serviceImp.ComplaintService;
 
 public class ComplaintServiceTesting {
@@ -38,12 +38,13 @@ public class ComplaintServiceTesting {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this); 
 
         // Initialize mock complaint object
         complaint = new Complaint();
         complaint.setIdComplaint("1");
         complaint.setDescription("Sample complaint");
+        complaint.setStatus("Pending");
     }
 
     // 1. Test createComplaint method successfully
@@ -63,7 +64,7 @@ public class ComplaintServiceTesting {
         // Mock DAO to return false when adding complaint
         when(complaintDao.addComplaint(any(Complaint.class))).thenReturn(false);
 
-        Exception exception = assertThrows(ComplaintNotFoundException.class, () -> {
+        Exception exception = assertThrows(ComplaintException.class, () -> {
             complaintService.createComplaint(complaint);
         });
 
@@ -91,7 +92,7 @@ public class ComplaintServiceTesting {
         // Mock DAO to return an empty list
         when(complaintDao.getAllComplaints()).thenReturn(new ArrayList<>());
 
-        Exception exception = assertThrows(ComplaintNotFoundException.class, () -> {
+        Exception exception = assertThrows(ComplaintException.class, () -> {
             complaintService.retriveAllComplaint();
         });
 
@@ -119,7 +120,7 @@ public class ComplaintServiceTesting {
         // Mock DAO to return an empty list for a user
         when(complaintDao.getComplaintsByuserId(anyString())).thenReturn(new ArrayList<>());
 
-        Exception exception = assertThrows(ComplaintNotFoundException.class, () -> {
+        Exception exception = assertThrows(ComplaintException.class, () -> {
             complaintService.retriveComplaintByUser("user123");
         });
 
@@ -133,7 +134,7 @@ public class ComplaintServiceTesting {
         // Mock DAO to return existing complaint
         when(complaintDao.getComplaintByComplaintId(anyString())).thenReturn(complaint);
 
-        doNothing().when(complaintDao).updateComplaint(anyString(), anyString(), anyString());
+        when(complaintDao.updateComplaint("1", "status", complaint.getStatus())).thenReturn(true);
 
         assertDoesNotThrow(() -> complaintService.updateComplaint("1", complaint));
         verify(complaintDao, times(1)).updateComplaint("1", "status", complaint.getStatus());
@@ -145,9 +146,8 @@ public class ComplaintServiceTesting {
         // Mock DAO to return null, simulating complaint not found
         when(complaintDao.getComplaintByComplaintId(anyString())).thenReturn(null);
 
-        Exception exception = assertThrows(ComplaintNotFoundException.class, () -> {
-            complaintService.updateComplaint("1", complaint);
-        });
+        Exception exception = assertThrows(ComplaintException.class, () -> 
+            complaintService.updateComplaint("1", complaint));
 
         assertEquals(ApiMessages.UNABLE_TO_UPDATE_COMPLAINT, exception.getMessage());
         verify(complaintDao, times(0)).updateComplaint(anyString(), anyString(), anyString());
@@ -169,9 +169,8 @@ public class ComplaintServiceTesting {
         // Mock DAO to return false, simulating complaint not found
         when(complaintDao.deleteComplaint(anyString())).thenReturn(false);
 
-        Exception exception = assertThrows(ComplaintNotFoundException.class, () -> {
-            complaintService.deleteComplaint("1");
-        });
+        Exception exception = assertThrows(ComplaintException.class, () -> 
+            complaintService.deleteComplaint("1"));
 
         assertEquals(ApiMessages.COMPLIANT_DELETED, exception.getMessage());
         verify(complaintDao, times(1)).deleteComplaint("1");

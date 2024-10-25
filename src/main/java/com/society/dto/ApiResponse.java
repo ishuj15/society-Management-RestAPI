@@ -42,7 +42,7 @@ public class ApiResponse {
 		this.message = message;
 		this.data = data;
 	}
-
+ 
 	public ApiResponse(ApiResponseStatus status, String message, Object data, Object error) {
 		this.status = status;
 		this.message = message;

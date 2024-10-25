@@ -19,7 +19,7 @@ import org.mockito.MockitoAnnotations;
 
 import com.society.Model.Notices;
 import com.society.dao.implementation.NoticesDAO;
-import com.society.exceptions.NoticeNotFoundException;
+import com.society.exceptions.NoticeException;
 import com.society.serviceImp.NoticeService;
 
 public class NoticesServicesTesting {
@@ -50,7 +50,7 @@ public class NoticesServicesTesting {
         Notices notice = new Notices();
         when(noticeDao.addNotice(notice)).thenReturn(false);
 
-        assertThrows(NoticeNotFoundException.class, () -> noticeService.createNotice(notice));
+        assertThrows(NoticeException.class, () -> noticeService.createNotice(notice));
 
         verify(noticeDao, times(1)).addNotice(notice);
     }
@@ -70,7 +70,7 @@ public class NoticesServicesTesting {
     void testGetAllNotices_EmptyList() throws Exception {
         when(noticeDao.getAllNotices()).thenReturn(Collections.emptyList());
 
-        assertThrows(NoticeNotFoundException.class, () -> noticeService.getAllNotices());
+        assertThrows(NoticeException.class, () -> noticeService.getAllNotices());
 
         verify(noticeDao, times(1)).getAllNotices();
     }
@@ -90,7 +90,7 @@ public class NoticesServicesTesting {
     void testGetNoticesByRole_Failure() throws Exception {
         when(noticeDao.getNoticeByRole("unknown_role")).thenReturn(Collections.emptyList());
 
-        assertThrows(NoticeNotFoundException.class, () -> noticeService.getNoticeByRole("unknown_role"));
+        assertThrows(NoticeException.class, () -> noticeService.getNoticeByRole("unknown_role"));
 
         verify(noticeDao, times(1)).getNoticeByRole("unknown_role");
     }
@@ -110,7 +110,7 @@ public class NoticesServicesTesting {
     void testGetNoticeById_NotFound() throws Exception {
         when(noticeDao.getNoticeByNoticeId("999")).thenReturn(null);
 
-        assertThrows(NoticeNotFoundException.class, () -> noticeService.getNoticeByNoticeId("999"));
+        assertThrows(NoticeException.class, () -> noticeService.getNoticeByNoticeId("999"));
 
         verify(noticeDao, times(1)).getNoticeByNoticeId("999");
     }
@@ -134,7 +134,7 @@ public class NoticesServicesTesting {
         Notices updatedNotice = new Notices();
         when(noticeDao.getNoticeByNoticeId("123")).thenReturn(null);
 
-        assertThrows(NoticeNotFoundException.class, () -> noticeService.updateNotice("123", updatedNotice));
+        assertThrows(NoticeException.class, () -> noticeService.updateNotice("123", updatedNotice));
 
         verify(noticeDao, times(1)).getNoticeByNoticeId("123");
     }
@@ -152,7 +152,7 @@ public class NoticesServicesTesting {
     void testDeleteNotice_Failure() throws Exception {
         when(noticeDao.deleteNotice("123")).thenReturn(true);
 
-        assertThrows(NoticeNotFoundException.class, () -> noticeService.deleteNotice("123"));
+        assertThrows(NoticeException.class, () -> noticeService.deleteNotice("123"));
 
         verify(noticeDao, times(1)).deleteNotice("123");
     }
