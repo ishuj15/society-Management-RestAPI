@@ -14,8 +14,8 @@ public class DbConnection {
 				if (connection == null || connection.isClosed()) {
 					try {
 						Class.forName("com.mysql.cj.jdbc.Driver");
-						connection = DriverManager.getConnection("jdbc:mysql://localhost:33066/test", "root", "root");
-					//	connection = DriverManager.getConnection("application-database-identifier.czqqok6w4am2.us-east-1.rds.amazonaws.com", "admin", "Admin123#");
+//						connection = DriverManager.getConnection("jdbc:mysql://localhost:33066/test", "root", "root");
+						connection = DriverManager.getConnection("database-1.czqqok6w4am2.us-east-1.rds.amazonaws.com", "admin", "Admin123#");
 
 					} catch (SQLException e) {
 						// Log the exception with a meaningful message

@@ -54,7 +54,6 @@ public class AuthController {
 			//String role = userDb.getAuthorities().toString();
 			//role = role.substring(1, role.length() - 1);
 
-			
 			String jwtToken = jwtUtil.generateToken(userDb.getUserName(),userDb.getUserRole());
  			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
 					ApiMessages.LOGGED_IN_SUCCESSFULLY, Map.of("JWT Token", jwtToken));
