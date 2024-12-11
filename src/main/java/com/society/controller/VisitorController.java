@@ -3,6 +3,8 @@ package com.society.controller;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,9 @@ import jakarta.validation.Valid;
 public class VisitorController {
 	@Autowired 
 	private VisitorService visitorService;
+	//Logging 
+    private static final Logger logger = LoggerFactory.getLogger(VisitorController.class); 
+
 	
 	@PostMapping(path="/visitor")
 	public  ResponseEntity<Object> createVisitor(@Valid @RequestBody Visitor visitor) throws ClassNotFoundException, SQLException {

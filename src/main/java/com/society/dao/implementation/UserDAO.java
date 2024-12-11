@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.society.Model.User;
 import com.society.daoInterface.UserInterface;
+import com.society.exceptions.UserException;
 @Repository
 public class UserDAO extends GenericDAO<User> implements UserInterface {
 
@@ -59,6 +60,14 @@ public class UserDAO extends GenericDAO<User> implements UserInterface {
 		String sqlQuery = String.format("UPDATE user SET %s = '%s' WHERE idUser = '%s'", columnToUpdate, newValue,
 				userId);
 		return executeQuery(sqlQuery);
+	}
+	public List<User> getUserByUserType(String userType) throws SQLException, ClassNotFoundException{
+		try {
+			String sqlQuery = "SELECT idUser,userName FROM user where userRole= \"" +userType +"\"";
+			return executeGetAllQuery(sqlQuery);	
+		}
+		catch(Exception e ) {
+			throw new UserException("Faild at dao layer");		}
 	}
 	
 

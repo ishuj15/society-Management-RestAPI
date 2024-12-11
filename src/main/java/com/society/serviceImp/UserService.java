@@ -1,6 +1,8 @@
 package com.society.serviceImp;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,5 +80,22 @@ public class UserService implements UserServiceInterface {
 		}
 		//return false;
 		
+	}
+	@Override
+	public List<User> printUsernameList(String userType) throws ClassNotFoundException, SQLException {
+		try {
+		List<User> listOfUser = userDAO.getUserByUserType(userType);
+		return listOfUser;
+		}
+		catch(Exception e) {
+			throw new UserException("Faild at service layer");
+		}
+		
+	}
+	@Override
+	public User SelctUserfromUsernameList(List<User> list) throws ClassNotFoundException, SQLException {
+		int choice = Helper.choiceInput(list.size());
+		User selectedUser = list.get(choice - 1);
+		return selectedUser;
 	}
 } 

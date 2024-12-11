@@ -24,6 +24,7 @@ import com.society.dto.ApiResponseHandler;
 import com.society.exceptions.UserException;
 import com.society.serviceImp.UserService;
 import com.society.util.Helper;
+import com.society.util.str;
 
 import jakarta.validation.Valid;
 
@@ -103,7 +104,7 @@ public class UserController {
 			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  user);
 		}
 	}
-	//done
+	 
 	@PatchMapping(path="/user/{userId}")
 	public ResponseEntity<Object> updateUser(@PathVariable String userId, @RequestBody User user) throws ClassNotFoundException, SQLException {
         logger.info("Request to update user: {}", userId);
@@ -120,7 +121,7 @@ public class UserController {
             throw new UserException(ApiMessages.UNABLE_TO_UPDATE_USER);
 		}
 	}
-	//done
+ 
 	@DeleteMapping(path="/user/{userId}")
 	public ResponseEntity<Object> deleteUser(@PathVariable String userId) throws ClassNotFoundException, SQLException {
         logger.info("Request to delete user: {}", userId);
@@ -138,6 +139,25 @@ public class UserController {
 	}
 	// getUserbyadmin
 	//getUsernameList()
-	//login()
+	 @GetMapping(path="/userName")
+	 public ResponseEntity<Object> getuserName() throws ClassNotFoundException , SQLException
+	 {
+	        logger.info("Request to access username list by admin: {}");
+	        try {
+	        List<User> list= userService.printUsernameList(str.resident);
+	        logger.info("UserName list retrived successfully");
+            return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
+
+	        }
+	       catch(Exception e)
+	        {
+	            logger.error("Unable to retrive user list: {}");
+	            throw  new UserException("Unable to fetch username lists");
+
+	        }
+
+		 
+
+	 }
 	
 }

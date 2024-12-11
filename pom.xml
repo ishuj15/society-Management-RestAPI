@@ -30,6 +30,14 @@
 		<java.version>17</java.version>
 	</properties>
 	
+<!--	<repositories>-->
+<!--	    <repository>-->
+<!--	        <id>aws-repo</id>-->
+<!--	        <url>https://aws-sdk-java-accelerators.s3.amazonaws.com/maven-repository/</url>-->
+<!--	    </repository>-->
+<!--	</repositories>-->
+
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -55,10 +63,23 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version> <!-- Check for the latest version -->
+			<version>4.0.1</version>  
 			<scope>provided</scope>
 		</dependency>
+		
+<!--		<dependency>-->
+<!--			<groupId>com.amazonaws</groupId>-->
+<!--			<artifactId>aws-lambda-java-core</artifactId>-->
+<!--			<version>1.1.0</version>  Check for the latest version -->
+			
+<!--		</dependency>-->
 
+<!--		<dependency>-->
+<!--		    <groupId>com.amazonaws.serverless</groupId>-->
+<!--		    <artifactId>aws-serverless-java-container-springboot2</artifactId>-->
+<!--		    <version>1.5.2</version> -->
+<!--		</dependency>-->
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -115,6 +136,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
 		</dependency>
+		
 		
 	</dependencies>
 	

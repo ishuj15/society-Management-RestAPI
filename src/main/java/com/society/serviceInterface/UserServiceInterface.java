@@ -15,6 +15,8 @@ public interface UserServiceInterface {
 	public User retriveUserById(String userId) throws ClassNotFoundException, SQLException ;
 //	public List<User> retriveAllUsers() throws SQLException, ClassNotFoundException ;
 	public User getUserByUserName(String userName) throws SQLException, ClassNotFoundException ;
-//	public  User getUsernameList() throws ClassNotFoundException, SQLException ;
 	public List<User> retriveAllUsers(int page, int size) throws SQLException,ClassNotFoundException;
+	public  User SelctUserfromUsernameList(List<User> list) throws ClassNotFoundException, SQLException ;
+
+	public  List<User> printUsernameList(String userType) throws ClassNotFoundException, SQLException ;
 }

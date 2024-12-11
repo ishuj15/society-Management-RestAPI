@@ -41,28 +41,22 @@ public class AuthController {
  
 	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody JwtRequest user) {
-		//System.out.println("Password"+user.getPassword());
-		try {
+ 		try {
 			String hashedPassword = Helper.hashPassword(user.getPassword());
-			System.out.println("toh ab "+user.getUsername());
-
+ 
 			User userDb = userService.getUserByUserName(user.getUsername());
-				System.out.println("hi"+userDb.getPassword());
-
+ 
 //			authenticationManager
 //					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), hashedPassword));
 			if (!hashedPassword.equals(userDb.getPassword())) {
-				System.out.println("oh yeah");
-	            throw new Exception("Invalid password");
+ 	            throw new Exception("Invalid password");
 	        }
 			//String role = userDb.getAuthorities().toString();
 			//role = role.substring(1, role.length() - 1);
 
 			
 			String jwtToken = jwtUtil.generateToken(userDb.getUserName(),userDb.getUserRole());
-			System.out.println(jwtToken);
-			System.out.println("line 60");
-			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
+ 			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
 					ApiMessages.LOGGED_IN_SUCCESSFULLY, Map.of("JWT Token", jwtToken));
 		} catch (Exception e) {
 			return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.UNAUTHORIZED,

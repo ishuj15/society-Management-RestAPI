@@ -6,13 +6,13 @@ import org.springframework.http.ResponseEntity;
 import com.society.Model.ApiResponseStatus;
 
 public class ApiResponseHandler {
-	
+	//Response entity for success
 	public static ResponseEntity<Object> buildResponse(ApiResponseStatus status, HttpStatus statusCode, String message,
 			Object data) {
 		ApiResponse apiResponse = new ApiResponse(status, message, data); 
 		return new ResponseEntity<>(apiResponse, statusCode);
 	}
-	
+	//Response entity for failure
 	public static ResponseEntity<Object> buildResponse(ApiResponseStatus status, HttpStatus statusCode, String message,
 			Object data, Object error) {
 		ApiResponse apiResponse = new ApiResponse(status, message, data, error);

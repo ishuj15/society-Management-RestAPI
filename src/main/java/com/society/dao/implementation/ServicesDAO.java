@@ -7,7 +7,9 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.society.Model.Services;
+import com.society.constants.ApiMessages;
 import com.society.daoInterface.ServiceInterface;
+import com.society.exceptions.ServiceException;
 @Repository
 public class ServicesDAO extends GenericDAO<Services> implements ServiceInterface{
 //	public ServicesDAO()
@@ -26,16 +28,29 @@ public class ServicesDAO extends GenericDAO<Services> implements ServiceInterfac
 	}
 
 	public boolean addService(Services service) throws SQLException, ClassNotFoundException {
-		String sqlQuery = String.format(
-				"INSERT INTO services (idServices, userId, serviceName, Description,status) VALUES ('%s','%s','%s','%s','%s')",
-				service.getIdServices(), service.getUserId(), service.getServiceName(), service.getDescription(),
-				service.getStatus());
-		return executeQuery(sqlQuery);
+		try {
+			
+			String sqlQuery = String.format(
+					"INSERT INTO services (idServices, userId, serviceName, Description,status) VALUES ('%s','%s','%s','%s','%s')",
+					service.getIdServices(), service.getUserId(), service.getServiceName(), service.getDescription(),
+					service.getStatus());
+			return executeQuery(sqlQuery);
+		}
+		catch(Exception e)
+		{
+			throw new ServiceException(ApiMessages.UNABLE_TO_CREATE_SERVICE);
+		}
 	}
 
 	public List<Services> getServiceByUserId(String userId) throws SQLException, ClassNotFoundException {
-		String sqlQuery = "SELECT * FROM services WHERE userId = \"" + userId + "\"";
-		return executeGetAllQuery(sqlQuery);
+		try {
+			String sqlQuery = "SELECT * FROM services WHERE userId = \"" + userId + "\"";
+			return executeGetAllQuery(sqlQuery);
+		} catch (ClassNotFoundException e) {
+			throw e;
+		} catch (SQLException e) {
+			throw e;
+		}
 	}
 
 	public List<Services> getAllServices() throws SQLException, ClassNotFoundException {

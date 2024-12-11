@@ -59,7 +59,7 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler{
 	    public ResponseEntity<Object> handleBadRequestExceptions(BadRequestException ex) {
 	        String errorMessage = ex.getMessage();
 	        String apiMessage = ApiMessages.BAD_REQUEST_MESSAGE;
-
+	        
 	        ApiError apiError = new ApiError(LocalDateTime.now(), errorMessage, apiMessage);
 	        return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.BAD_REQUEST, apiMessage, null, apiError);
 	    }

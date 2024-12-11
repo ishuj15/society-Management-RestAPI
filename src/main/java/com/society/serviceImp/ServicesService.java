@@ -18,18 +18,32 @@ public class ServicesService implements ServicesServiceInterface {
 	public ServicesDAO serviceDao;
 	@Override
 	public boolean createService(Services service) throws ClassNotFoundException, SQLException {
-		if(!serviceDao.addService(service))
-			throw new ServiceException(ApiMessages.UNABLE_TO_CREATE_SERVICE);
-		return true;
-
-	} 
+		
+		try{
+			serviceDao.addService(service);
+			return true;	
+		}
+		catch(Exception e){
+			throw e; 
+		}
+		
+} 
 	@Override
 	public List<Services> retriveAllServices() throws ClassNotFoundException, SQLException{
-		List<Services> list = serviceDao.getAllServices();
-		if(list.isEmpty())
-			throw new ServiceException(ApiMessages.SERVICE_NOT_FOUND);
-		else 
-			return list;
+		try {
+			List<Services> list = serviceDao.getAllServices();
+			if(list.isEmpty())
+				return list;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw e;
+			}
+		return null;
 
 	}
 	@Override
