@@ -46,10 +46,10 @@
 			 <exclusions>
 	            <!-- Uncomment the following to exclude Tomcat -->
 	            
-<!--	            <exclusion>-->
-<!--	                <groupId>org.springframework.boot</groupId>-->
-<!--	                <artifactId>spring-boot-starter-tomcat</artifactId>-->
-<!--	            </exclusion>-->
+	            <exclusion>
+	                <groupId>org.springframework.boot</groupId>
+	                <artifactId>spring-boot-starter-tomcat</artifactId>
+	            </exclusion>
 	            
         	</exclusions>
 		</dependency>
@@ -97,6 +97,12 @@
 	        <artifactId>aws-java-sdk-sqs</artifactId>
 	        <version>1.12.632</version>
    		 </dependency>
+   		 
+<!--   		 <dependency>-->
+<!--		 	 <groupId>org.springframework.cloud</groupId>-->
+<!--		  	 <artifactId>spring-cloud-starter-aws</artifactId>-->
+<!--		  <version>3.0.1</version>  Use an appropriate version -->
+<!--		 </dependency>-->
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -114,61 +120,17 @@
 	</dependencies>
 	<build>
 		 <plugins>
-		  <plugin>
+		  	<plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-jar-plugin</artifactId>
             <configuration>
-                <archive>
-                    <manifest>
-                        <!-- Define the main class in the manifest -->
-                        <mainClass>com.society.LambdaHandler</mainClass>
-                    </manifest>
-                </archive>
-            </configuration>
-        </plugin>
-        <!-- Spring Boot Maven Plugin -->
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-            <excludes>
-                    <exclude>
-                        <groupId>org.projectlombok</groupId>
-                        <artifactId>lombok</artifactId>
-                    </exclude>
-                </excludes>
-            </configuration>
-        </plugin>
 
-        <!-- Maven Jar Plugin for packaging -->
+            </configuration>
+        </plugin>
        
     </plugins>
 			
-<!--		<plugin>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            <executions>-->
-<!--                <execution>-->
-<!--                    <goals>-->
-<!--                        <goal>repackage</goal>-->
-<!--                    </goals>-->
-<!--                </execution>-->
-<!--            </executions>-->
-<!--            <configuration>-->
-<!--                <mainClass>com.society.LambdaHandler</mainClass>-->
-<!--                <layout>NONE</layout>-->
-<!--            </configuration>-->
-<!--        </plugin>-->
-        
-<!--        <plugin>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            <configuration>-->
-<!--                <mainClass>com.society.LambdaHandler</mainClass>-->
-<!--                <layout>NONE</layout>-->
-<!--            </configuration>-->
-<!--        </plugin>-->
-<!--		</plugins>-->
+
 	</build>
 
 </project>
