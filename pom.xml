@@ -30,12 +30,6 @@
 		<java.version>17</java.version>
 	</properties>
 	
-<!--	<repositories>-->
-<!--	    <repository>-->
-<!--	        <id>aws-repo</id>-->
-<!--	        <url>https://aws-sdk-java-accelerators.s3.amazonaws.com/maven-repository/</url>-->
-<!--	    </repository>-->
-<!--	</repositories>-->
 
 	
 	<dependencies>

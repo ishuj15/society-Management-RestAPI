@@ -31,7 +31,7 @@ public class AlertController {
 
 	@PostMapping(path="/alert")
 	public ResponseEntity<Object> createAlert( @Valid @RequestBody  Alert alert) throws ClassNotFoundException, SQLException {
-		//alert.setIdAlert(Helper.generateUniqueId());
+	
 		alert.setIdAlert(Helper.generateUniqueId());
 			try {
 				alertService.addAlert(alert);
@@ -60,6 +60,8 @@ public class AlertController {
 	}
 	@GetMapping(path="/alert/{alertId}")
 	public ResponseEntity<Object> retriveAlertById(@PathVariable String alertId) throws ClassNotFoundException, SQLException {
+		System.out.println("controller layer");
+
 		Alert alert =alertService.getAlertById(alertId);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  alert);
 

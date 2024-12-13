@@ -6,15 +6,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class Complaint {
-	@NotNull
+	 
 	private String idComplaint;
-	@NotNull
+	
 	private String userId;
 	@Size(min=10)
 	private String description;
 	//@Present
 	private Date date;
-	@NotNull
+	 
 	private String status;
 	public String getIdComplaint() {
 		return idComplaint;
