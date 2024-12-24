@@ -371,10 +371,14 @@ public class str {
 
 	public static String loggingout = "Logging out,Please wait";
 	public static String validTargetRole= "Enter a valid target role";
-	//public static String = ;
-//	public static String = ;
-//
-//	public static String = ;public static String = ;
+	
+	
+	
+	public static String rdsPassword="Admin123#" ;
+	public static String rdsUsername="admin" ;
+	public static String rdsURL="jdbc:mysql://app-society-database.czqqok6w4am2.us-east-1.rds.amazonaws.com:3306/test?useSSL=false&serverTimezone=UTC" ;
+
+	public static String mysqlConnectorJdbc = "com.mysql.cj.jdbc.Driver";
 //
 //	public static String = ;
 //	public static String = ;
