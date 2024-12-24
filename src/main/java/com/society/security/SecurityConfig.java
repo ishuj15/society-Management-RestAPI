@@ -28,8 +28,8 @@ public class SecurityConfig {
                 // Specific matchers first
                 authorize.requestMatchers("/api/auth/**").permitAll();
                 authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-                authorize.requestMatchers("/swagger-ui/index.html**").permitAll();
-                authorize.requestMatchers("/v3/api-docs**").permitAll();
+//                authorize.requestMatchers("/swagger-ui/index.html**").permitAll();
+//                authorize.requestMatchers("/v3/api-docs**").permitAll();
                 
                 // General rule at the end
                 authorize.anyRequest().authenticated();

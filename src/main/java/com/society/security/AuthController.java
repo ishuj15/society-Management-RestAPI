@@ -17,7 +17,7 @@ import com.society.Model.ApiResponseStatus;
 import com.society.Model.User;
 import com.society.constants.ApiMessages;
 import com.society.dto.ApiResponseHandler;
-import com.society.dto.JwtRequest;
+import com.society.dto.RequestUserCredentials;
 import com.society.serviceImp.UserService;
 import com.society.util.Helper;
 
@@ -40,7 +40,7 @@ public class AuthController {
 	private UserService userService; 
  
 	@PostMapping("/login")
-	public ResponseEntity<Object> login(@RequestBody JwtRequest user) {
+	public ResponseEntity<Object> login(@RequestBody RequestUserCredentials user) {
  		try {
 			String hashedPassword = Helper.hashPassword(user.getPassword());
  

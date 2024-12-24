@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class JwtRequest {
+public class RequestUserCredentials {
 	private String username;
 	private String password;
 }
