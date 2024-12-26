@@ -27,7 +27,7 @@ public class UserDAO extends GenericDAO<User> implements UserInterface {
 	}
 	public boolean addUser(User user) throws SQLException, ClassNotFoundException {
 		String sqlQuery = String.format(
-				"INSERT INTO User ( idUser, userName,  userRole, password,phoneNo,email,address) VALUES ('%s','%s','%s','%s', '%s','%s','%s')",
+				"INSERT INTO user ( idUser, userName,  userRole, password,phoneNo,email,address) VALUES ('%s','%s','%s','%s', '%s','%s','%s')",
 				user.getIdUser(), user.getUserName(), user.getUserRole(), user.getPassword(), user.getPhoneNo(),
 				user.getEmail(), user.getAddress());
 		return executeQuery(sqlQuery);

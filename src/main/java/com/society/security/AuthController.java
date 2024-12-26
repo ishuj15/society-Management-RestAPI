@@ -28,12 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/auth")
 public class AuthController {
  
-	//private final UserDetailsService userDetailsService;
- 
-	//private final AuthenticationManager authenticationManager;
- 
-	//private final PasswordEncoder passwordEncoder;
- 
+	
 	private final JwtUtil jwtUtil;
  
 	@Autowired
