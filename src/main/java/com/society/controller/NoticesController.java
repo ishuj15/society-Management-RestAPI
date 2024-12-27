@@ -31,7 +31,7 @@ public class NoticesController {
 	public ResponseEntity<Object> createNotice(@Valid @RequestBody Notices notice) throws ClassNotFoundException, SQLException {
 		notice.setIdNotices(Helper.generateUniqueId());
 		noticeService.createNotice(notice);
-		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.NOTICE_CREATED,  null);
+		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.NOTICE_CREATED, notice);
 	}
 	
 	@GetMapping(path="/notices")
