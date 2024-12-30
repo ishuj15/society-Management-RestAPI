@@ -4,59 +4,88 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.society.Model.Notices;
 import com.society.daoInterface.NoticeInterface;
+
 @Repository
 public class NoticesDAO extends GenericDAO<Notices> implements NoticeInterface {
 
-	@Override
-	protected Notices mapResultSetToEntity(ResultSet resultSet) throws SQLException {
-		Notices notice = new Notices();
-			notice.setIdNotices(resultSet.getString("idNotices"));
-		notice.setTitle(resultSet.getString("title"));
-		notice.setMessage(resultSet.getString("message"));
-		notice.setDate(resultSet.getString("date"));
-		notice.setTargetRole(resultSet.getString("targetRole"));
+    private static final Logger logger = LoggerFactory.getLogger(NoticesDAO.class);
 
-		return notice;
-	}
+    @Override
+    protected Notices mapResultSetToEntity(ResultSet resultSet) throws SQLException {
+        Notices notice = new Notices();
+        notice.setIdNotices(resultSet.getString("idNotices"));
+        notice.setTitle(resultSet.getString("title"));
+        notice.setMessage(resultSet.getString("message"));
+        notice.setDate(resultSet.getString("date"));
+        notice.setTargetRole(resultSet.getString("targetRole"));
+        return notice;
+    }
 
-	public boolean addNotice(Notices notice) throws SQLException, ClassNotFoundException {
-		String sqlQuery = String.format(
-				"INSERT INTO notices (idNotices, title, message, date, targetRole) VALUES ('%s','%s','%s','%s','%s')",
-				notice.getIdNotices(), notice.getTitle(), notice.getMessage(), notice.getDate(),
-				notice.getTargetRole());
-		return executeQuery(sqlQuery);
-	}
+    public boolean addNotice(Notices notice) {
+        String sqlQuery = String.format(
+                "INSERT INTO notices (idNotices, title, message, date, targetRole) VALUES ('%s','%s','%s','%s','%s')",
+                notice.getIdNotices(), notice.getTitle(), notice.getMessage(), notice.getDate(), notice.getTargetRole());
+        try {
+            return executeQuery(sqlQuery);
+        } catch (SQLException | ClassNotFoundException e) {
+            logger.error("Error adding notice: {}", e.getMessage(), e);
+            return false;
+        }
+    }
 
-	public List<Notices> getNoticeByRole(String role) throws SQLException, ClassNotFoundException {
-		String sqlQuery = String.format("SELECT * FROM notices WHERE targetRole = '%s' OR targetRole = 'all'",role);
+    public List<Notices> getNoticeByRole(String role) {
+        String sqlQuery = String.format("SELECT * FROM notices WHERE targetRole = '%s' OR targetRole = 'all'", role);
+        try {
+            return executeGetAllQuery(sqlQuery);
+        } catch (SQLException | ClassNotFoundException e) {
+            logger.error("Error fetching notices for role {}: {}", role, e.getMessage(), e);
+            return null;
+        }
+    }
 
-		return executeGetAllQuery(sqlQuery);
-	}
+    public List<Notices> getAllNotices() {
+        String sqlQuery = "SELECT * FROM notices";
+        try {
+            return executeGetAllQuery(sqlQuery);
+        } catch (SQLException | ClassNotFoundException e) {
+            logger.error("Error fetching all notices: {}", e.getMessage(), e);
+            return null;
+        }
+    }
 
-	public List<Notices> getAllNotices() throws SQLException, ClassNotFoundException {
-		String sqlQuery = "SELECT * FROM notices";
-		return executeGetAllQuery(sqlQuery);
-	}
+    public boolean deleteNotice(String noticeId) {
+        String sqlQuery = "DELETE FROM notices WHERE idNotices = \"" + noticeId + "\"";
+        try {
+            return executeQuery(sqlQuery);
+        } catch (SQLException | ClassNotFoundException e) {
+            logger.error("Error deleting notice by ID {}: {}", noticeId, e.getMessage(), e);
+            return false;
+        }
+    }
 
-	public boolean deleteNotice(String noticeId) throws SQLException, ClassNotFoundException {
-		String sqlQuery = "DELETE FROM notices WHERE idNotices = \"" + noticeId + "\"";
-		return executeQuery(sqlQuery);
-	}
-	
-	public Notices getNoticeByNoticeId(String noticeId) throws SQLException, ClassNotFoundException {
-		String sqlQuery = "SELECT * FROM notices WHERE idNotices = \"" + noticeId + "\"";
-		return executeGetQuery(sqlQuery);
-	}
+    public Notices getNoticeByNoticeId(String noticeId) {
+        String sqlQuery = "SELECT * FROM notices WHERE idNotices = \"" + noticeId + "\"";
+        try {
+            return executeGetQuery(sqlQuery);
+        } catch (SQLException | ClassNotFoundException e) {
+            logger.error("Error fetching notice by ID {}: {}", noticeId, e.getMessage(), e);
+            return null;
+        }
+    }
 
-
-	public boolean updateNotice(String userId, String columnToUpdate, String newValue)
-			throws SQLException, ClassNotFoundException {
-		String sqlQuery = String.format("UPDATE notices SET %s = '%s' WHERE idNotices = '%s'", columnToUpdate, newValue,
-				userId);
-		return executeQuery(sqlQuery);
-	}
+    public boolean updateNotice(String userId, String columnToUpdate, String newValue) {
+        String sqlQuery = String.format("UPDATE notices SET %s = '%s' WHERE idNotices = '%s'", columnToUpdate, newValue, userId);
+        try {
+            return executeQuery(sqlQuery);
+        } catch (SQLException | ClassNotFoundException e) {
+            logger.error("Error updating notice by ID {}: {}", userId, e.getMessage(), e);
+            return false;
+        }
+    }
 }

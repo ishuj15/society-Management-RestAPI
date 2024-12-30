@@ -23,6 +23,7 @@ import com.society.dto.ApiResponseHandler;
 import com.society.exceptions.ServiceException;
 import com.society.serviceImp.ServicesService;
 import com.society.util.Helper;
+import com.society.util.str;
 
 import jakarta.validation.Valid;
 @RestController
@@ -56,16 +57,37 @@ public class ServicesController {
 	} 
 	@GetMapping(path="/services")
 	public ResponseEntity<Object> retriveAllServices() throws ClassNotFoundException, SQLException{
-		 List<Services> list =  servicesService.retriveAllServices();
-		
-		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
+		logger.info("Request to retrieve  all services : {}");
+
+		try {
+			List<Services> list =  servicesService.retriveAllServices();
+			 logger.info("services retrieved successfully: ");
+
+			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
+		} catch (ClassNotFoundException e) {
+			logger.warn("Not able to retrive all  services ");
+			throw new ClassNotFoundException(str.unableToRetrive);
+		} catch (SQLException e) {
+			logger.warn("Not able to retrive all  services ");
+			throw new SQLException(str.unableToRetrive);
+		}
 
 	}
 	@GetMapping(path="/services/{userId}")
 	public ResponseEntity<Object> retriveServiceByUser(@PathVariable String userId)throws ClassNotFoundException, SQLException {
-		 List<Services> list = servicesService.retriveServiceByUser(userId);
-		
-		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
+		 
+		logger.info("Request to retrieve  all services : {}");
+		try {
+			List<Services> list = servicesService.retriveServiceByUser(userId);
+			logger.info("services retrieved successfully: ");
+			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
+		} catch (ClassNotFoundException e) {
+			logger.warn("Not able to retrive all  services ");
+			throw new ClassNotFoundException(str.unableToRetrive);
+		} catch (SQLException e) {
+			logger.warn("Not able to retrive all  services ");
+			throw new SQLException(str.unableToRetrive);
+		}
 
 	}
 	@PatchMapping(path="/service/{serviceId}")
@@ -76,9 +98,20 @@ public class ServicesController {
 	}
 	@DeleteMapping(path="/service/{serviceId}")
 	public ResponseEntity<Object> deleteServiceById(@PathVariable String serviceId) throws ClassNotFoundException, SQLException{
-		servicesService.deleteServiceById(serviceId);
-		
-		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.SERVICE_DELETED,   null);
+		logger.info("Request to delete service by ID: {}", serviceId);
+
+		try {
+			servicesService.deleteServiceById(serviceId);
+            logger.info("service deleted successfully: {}", serviceId);
+
+			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.SERVICE_DELETED,   null);
+		} catch (ClassNotFoundException e) {
+			logger.warn("Not able to delete service ");
+			throw new ClassNotFoundException(str.unableToDelete);
+		} catch (SQLException e) {
+			logger.warn("Not able to delete service ",serviceId);
+			throw new SQLException(str.unableToDelete);
+		}
 
 	}
 }

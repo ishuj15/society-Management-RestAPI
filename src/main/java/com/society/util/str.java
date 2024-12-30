@@ -380,7 +380,11 @@ public class str {
 	
 	public static String mysqlConnectorJdbc = "com.mysql.cj.jdbc.Driver";
 //
-//	public static String = ;
+	public static String unableToDelete ="Unable to delete" ;
+	public static String unableToUpdate ="Unable to update" ;
+	public static String unableToRetrive ="Unable to retrive" ;
+	public static String unableToCreate ="Unable to create" ;
+
 //	public static String = ;
 //	public static String = ;
 //	public static String = ;
