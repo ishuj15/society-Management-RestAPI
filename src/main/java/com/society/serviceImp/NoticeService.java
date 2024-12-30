@@ -82,7 +82,7 @@ public class NoticeService implements NoticesServiceInterface {
 	}
 	@Override
 	public boolean deleteNotice(String noticeId) throws ClassNotFoundException, SQLException {
-		if(noticeDao.deleteNotice(noticeId))
+		if(!noticeDao.deleteNotice(noticeId))
 			throw new NoticeException(ApiMessages.UNABLE_TO_DELETE_NOTICE);
 		return true;
 

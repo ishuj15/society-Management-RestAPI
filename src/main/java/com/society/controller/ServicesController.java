@@ -33,16 +33,17 @@ public class ServicesController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class); 
 
 	
-	@PostMapping(path="/service")
-	public ResponseEntity<Object> createService(@Valid @RequestBody  Services service) throws ClassNotFoundException, SQLException {
+	@PostMapping(path="/service/{userId}")
+	public ResponseEntity<Object> createService(@Valid  @PathVariable String userId ,@RequestBody  Services service) throws ClassNotFoundException, SQLException {
 		service.setIdServices(Helper.generateUniqueId());
+		service.setUserId(userId);
 		
-        logger.info("Request to create service: {}", service);
+		logger.info("Request to create service: {}", service);
 
 		if(servicesService.createService(service))
 		{
 			logger.info("Service created successfully: {}", service.getIdServices());
-			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.SERVICE_CREATED,  null);
+			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.SERVICE_CREATED, service);
 		}
 		else
 		{

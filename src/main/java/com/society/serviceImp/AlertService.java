@@ -25,6 +25,7 @@ public class AlertService implements AlertServiceInterface{
 
 	@Override
 	public boolean addAlert(Alert alert) throws AlertsException, ClassNotFoundException, SQLException  {
+		
 		if(!alertDao.addAlert(alert))
 		{
 			throw new InternalServerException(ApiMessages.UNABLE_TO_CREATE_ALERT);
@@ -81,7 +82,7 @@ public class AlertService implements AlertServiceInterface{
 
 	}
 	@Override
-	public Alert getAlertById(String alertId) throws ClassNotFoundException, SQLException {
+	public Alert getAlertById(String alertId) throws AlertsException,ClassNotFoundException, SQLException {
 		Alert alert=alertDao.getAlertById(alertId);
 		if(alert==null) {
 			throw new AlertsException(ApiMessages.ALERT_NOT_FOUND);

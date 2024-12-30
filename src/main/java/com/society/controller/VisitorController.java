@@ -35,6 +35,7 @@ public class VisitorController {
 	
 	@PostMapping(path="/visitor/{userId}")
 	public  ResponseEntity<Object> createVisitor(@Valid  @PathVariable String userId ,@RequestBody Visitor visitor) throws ClassNotFoundException, SQLException {
+		visitor.setIdVisitor(Helper.generateUniqueId());
 		visitor.setUserId(userId);
 		visitorService.createVisitor(visitor);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.VISITOR_CREATED,  visitor);
@@ -69,7 +70,11 @@ public class VisitorController {
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
 
 	}
-
+//	@PatchMapping(path="/visitors/{id}")
+//	public void verifyVisitor() {
+//		
+//	}
+//	
 	//pending requests 	
 	//verify visitor
 
