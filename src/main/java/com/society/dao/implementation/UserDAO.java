@@ -23,13 +23,15 @@ public class UserDAO extends GenericDAO<User> implements UserInterface {
 		user.setPhoneNo(resultSet.getString("phoneNo"));
 		user.setEmail(resultSet.getString("email"));
 		user.setAddress(resultSet.getString("address"));
+		user.setQrImage(resultSet.getString("qrImage"));
+		user.setQrToken(resultSet.getString("qrToken"));
 		return user;
 	}
 	public boolean addUser(User user) throws SQLException, ClassNotFoundException {
 		String sqlQuery = String.format(
-				"INSERT INTO user ( idUser, userName,  userRole, password,phoneNo,email,address) VALUES ('%s','%s','%s','%s', '%s','%s','%s')",
+				"INSERT INTO user ( idUser, userName,  userRole, password,phoneNo,email,address,qrImage,qrToken) VALUES ('%s','%s','%s','%s', '%s','%s','%s','%s','%s')",
 				user.getIdUser(), user.getUserName(), user.getUserRole(), user.getPassword(), user.getPhoneNo(),
-				user.getEmail(), user.getAddress());
+				user.getEmail(), user.getAddress() , user.getQrImage(), user.getQrToken());
 		return executeQuery(sqlQuery);
 	}
 
@@ -55,15 +57,18 @@ public class UserDAO extends GenericDAO<User> implements UserInterface {
 //		String sqlQuery = "SELECT * FROM user";
 		return executeGetAllQuery(sqlQuery);	
 	}
-	public boolean updateUser(String userId, String columnToUpdate, String newValue)
+	public boolean updateUser(String userId, User user)
 			throws SQLException, ClassNotFoundException {
-		String sqlQuery = String.format("UPDATE user SET %s = '%s' WHERE idUser = '%s'", columnToUpdate, newValue,
-				userId);
+		String sqlQuery = String.format(
+			    "UPDATE user SET email = '%s', address = '%s', phoneNo = '%s',password = '%s' WHERE idUser = '%s'",
+			    user.getEmail(), user.getAddress(), user.getPhoneNo(), user.getPassword(), userId
+			);
+
 		return executeQuery(sqlQuery);
 	}
 	public List<User> getUserByUserType(String userType) throws SQLException, ClassNotFoundException{
 		try {
-			String sqlQuery = "SELECT idUser,userName FROM user where userRole= \"" +userType +"\"";
+			String sqlQuery = "SELECT * FROM user where userRole= \"" +userType +"\"";
 			return executeGetAllQuery(sqlQuery);	
 		}
 		catch(Exception e ) {

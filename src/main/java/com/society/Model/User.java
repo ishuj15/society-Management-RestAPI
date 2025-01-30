@@ -1,5 +1,7 @@
 package com.society.Model;
 
+import org.springframework.data.relational.core.mapping.Column;
+
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -11,22 +13,39 @@ enum Role{
 }
 
 public class User {
+	
+	
 	private String idUser;
-	@Size(min=3)
+//	@Size(min=3)
 	private String userName;
 	//@NotNull(message="Invalid role")
 	private String userRole;
-	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%^&+=]).{8,}$",
-	         message = "Password must contain at least one uppercase letter, one lowercase letter, one number, one special character, and be at least 8 characters long.")
-
+//	@Pattern(regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@#$%^&+=]).{8,}$",
+//	         message = "Password must contain at least one uppercase letter, one lowercase letter, one number, "
+//	         		+ "one special character, and be at least 8 characters long.")
 //	@Pattern(regexp = "^?=.*[A-Z]?=.*[a-z]?=.*[0-9]?=.*[(@#$%^&+=).].*$")
-//	@Size(min=8)
 	private String password;
-	@Digits(fraction = 0, integer = 10)
+	@Digits(fraction = 0, integer = 10, message = "Phone number must be numeric and have up to 10 digits.")
 	private String phoneNo;
 	@Email
 	private String email;
-	@NotNull
+	private  String qrToken;
+	@Column(value = "LONGTEXT")
+	private  String qrImage;
+	public String getQrToken() {
+		return qrToken;
+	}
+	public void setQrToken(String qrToken) {
+		this.qrToken = qrToken;
+	}
+	public String getQrImage() {
+		return qrImage;
+	}
+	public void setQrImage(String qrImage) {
+		this.qrImage = qrImage;
+	}
+	
+	
 	private String address;
 	public String getIdUser() {
 		return idUser;

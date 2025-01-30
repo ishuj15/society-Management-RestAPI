@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.society.config.CorsConfig;
 @Configuration
 public class SecurityConfig {
  
@@ -21,6 +23,9 @@ public class SecurityConfig {
  
     @Autowired
     private JwtFilter filter;
+    
+    @Autowired
+    private CorsConfig corsConfig;
  
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,6 +40,7 @@ public class SecurityConfig {
                 // General rule at the end
                 authorize.anyRequest().authenticated();
             })
+            .cors(c -> c.configurationSource(corsConfig))
             .httpBasic(Customizer.withDefaults());
 
         http.exceptionHandling(exception -> exception.authenticationEntryPoint(point))

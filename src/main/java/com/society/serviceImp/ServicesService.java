@@ -58,16 +58,19 @@ public class ServicesService implements ServicesServiceInterface {
 	@Override
 	public List<Services> retriveServiceByUser(String userId) throws ClassNotFoundException, SQLException{
 		List<Services> list =  serviceDao.getServiceByUserId(userId);
-		if(list.isEmpty())
-			throw new ServiceException(ApiMessages.SERVICE_NOT_FOUND);
-		else 
+//		if(list.isEmpty())
+//			throw new ServiceException(ApiMessages.SERVICE_NOT_FOUND);
+//		else 
 			return list;
 
 	}
 	@Override
-	public boolean updateService()throws ClassNotFoundException, SQLException {
+	public boolean updateService(String serviceId, Services service)throws ClassNotFoundException, SQLException {
 		//will be implement later
+		if(serviceDao.updateService(serviceId, service))
 		return true;
+		
+		return false;
 
 	}
 	@Override

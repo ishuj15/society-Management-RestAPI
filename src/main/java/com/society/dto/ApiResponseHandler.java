@@ -12,6 +12,12 @@ public class ApiResponseHandler {
 		ApiResponse apiResponse = new ApiResponse(status, message, data); 
 		return new ResponseEntity<>(apiResponse, statusCode);
 	}
+	//login
+//	public static ResponseEntity<Object> buildResponse(ApiResponseStatus status, HttpStatus statusCode, String message,
+//			Object token, Object data) {
+//		ApiResponse apiResponse = new ApiResponse(status, message, token,data); 
+//		return new ResponseEntity<>(apiResponse, statusCode);
+//	}
 	//Response entity for failure
 	public static ResponseEntity<Object> buildResponse(ApiResponseStatus status, HttpStatus statusCode, String message,
 			Object data, Object error) {

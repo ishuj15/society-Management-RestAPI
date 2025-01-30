@@ -8,11 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +27,8 @@ import com.society.serviceImp.ServicesService;
 import com.society.util.Helper;
 
 import jakarta.validation.Valid;
+
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class ServicesController {
 	@Autowired
@@ -34,7 +38,7 @@ public class ServicesController {
 
 	
 	@PostMapping(path="/service/{userId}")
-	public ResponseEntity<Object> createService(@Valid  @PathVariable String userId ,@RequestBody  Services service) throws ClassNotFoundException, SQLException {
+	public ResponseEntity<Object> createService(  @PathVariable String userId ,@RequestBody  Services service) throws ClassNotFoundException, SQLException {
 		service.setIdServices(Helper.generateUniqueId());
 		service.setUserId(userId);
 		
@@ -68,9 +72,10 @@ public class ServicesController {
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  list);
 
 	}
-	@PatchMapping(path="/service/{serviceId}")
-	public ResponseEntity<Object> updateService(@PathVariable String serviceId)throws ClassNotFoundException, SQLException {
+	@PutMapping(path="/service/{serviceId}")
+	public ResponseEntity<Object> updateService(@PathVariable String serviceId, @RequestBody Services service)throws ClassNotFoundException, SQLException {
 		//will be implement later
+		servicesService.updateService(serviceId, service);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.SERVICE_UPDATED,   null);
 
 	}

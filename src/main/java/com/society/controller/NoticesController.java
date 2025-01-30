@@ -1,16 +1,19 @@
 package com.society.controller;
 
 import java.sql.SQLException;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +25,7 @@ import com.society.serviceImp.NoticeService;
 import com.society.util.Helper;
 
 import jakarta.validation.Valid;
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class NoticesController {
 	@Autowired
@@ -52,15 +56,18 @@ public class NoticesController {
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.NOTICE_DELETED,  notice);
 	}
 	
-	@PatchMapping(path="/notice/{noticeId}")
+	@PutMapping(path="/notice/{noticeId}")
 	public ResponseEntity<Object> updateNotice(@PathVariable String noticeId , @RequestBody Notices notice) throws ClassNotFoundException, SQLException{
 		noticeService.updateNotice(noticeId,notice);
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.NOTICE_UPDATED,  null);
 	}
 	
+	
 	@DeleteMapping(path="/notice/{noticeId}")
 	public ResponseEntity<Object> deleteNotice(@PathVariable String noticeId) throws ClassNotFoundException, SQLException{
+		System.out.println(noticeId);
 		noticeService.deleteNotice(noticeId);
+
 		return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.NOTICE_DELETED,  null);
 	}
 }

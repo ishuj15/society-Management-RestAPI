@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -23,6 +24,7 @@ import com.society.util.Helper;
 
 import lombok.RequiredArgsConstructor;
  
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
@@ -39,6 +41,8 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<Object> login(@RequestBody JwtRequest user) {
  		try {
+ 			System.out.println(user.getUsername());
+ 			System.out.println(user.getPassword());
 			String hashedPassword = Helper.hashPassword(user.getPassword());
  
 			User userDb = userService.getUserByUserName(user.getUsername());
@@ -49,12 +53,13 @@ public class AuthController {
  	            throw new Exception("Invalid password");
 	        }
 			//String role = userDb.getAuthorities().toString();
-			//role = role.substring(1, role.length() - 1);
+			String role= userDb.getUserRole().toString().toUpperCase();
+			role = role.substring(1, role.length() - 1);
 
 			
-			String jwtToken = jwtUtil.generateToken(userDb.getUserName(),userDb.getUserRole());
+			String jwtToken = jwtUtil.generateToken(userDb.getUserName(),role);
  			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK,
-					ApiMessages.LOGGED_IN_SUCCESSFULLY, Map.of("JWT Token", jwtToken));
+					ApiMessages.LOGGED_IN_SUCCESSFULLY, Map.of("JWT Token", jwtToken), userDb);
 		} catch (Exception e) {
 			return ApiResponseHandler.buildResponse(ApiResponseStatus.ERROR, HttpStatus.UNAUTHORIZED,
 					ApiMessages.INVALID_CREDENTIALS_MESSAGE, null);

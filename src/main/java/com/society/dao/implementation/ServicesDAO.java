@@ -63,10 +63,13 @@ public class ServicesDAO extends GenericDAO<Services> implements ServiceInterfac
 		return executeQuery(sqlQuery);
 	}
 
-	public boolean updateService(String serviceId, String columnToUpdate, String newValue)
+	public boolean updateService(String serviceId, Services service)
 			throws SQLException, ClassNotFoundException {
-		String sqlQuery = String.format("UPDATE services SET %s = '%s' WHERE idservices = '%s'", columnToUpdate,
-				newValue, serviceId);
+		String sqlQuery = String.format(
+			    "UPDATE services SET serviceName = '%s', Description = '%s', status = '%s' WHERE idServices = '%s'",
+			   service.getServiceName(), service.getDescription(), service.getStatus()  , serviceId
+			);
+//		
 		return executeQuery(sqlQuery);
 	}
 }

@@ -11,6 +11,8 @@ public class Visitor {
 	private String dep_date;
 	private String approved;
 	private String contactNo;
+	private String token;
+	private String qrCodeBase64;
 	public String getIdVisitor() {
 		return idVisitor;
 	}
@@ -77,5 +79,21 @@ public class Visitor {
 				+ ", arrivalTime=" + arrivalTime + ", departureTime=" + departureTime + ", arrivalDate=" + arrivalDate
 				+ ", dep_date=" + dep_date + ", approved=" + approved + ", contactNo=" + contactNo + "]";
 	}
-	
+	 public String getToken() {
+	        return token;
+	    }
+
+	    public void setToken(String token) {
+	        this.token = token;
+	    }
+
+	    // Getter for qrCodeBase64 to send back to the frontend
+	    public String getQrCodeBase64() {
+	        return qrCodeBase64;
+	    }
+
+	    // Setter for qrCodeBase64 to store the Base64 string from the backend
+	    public void setQrCodeBase64(String qrCodeBase64) {
+	        this.qrCodeBase64 = qrCodeBase64;
+	    }
 }
