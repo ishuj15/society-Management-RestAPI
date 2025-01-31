@@ -86,7 +86,7 @@ public class VisitorController {
 	}
 
 	//verify visitor
-	@GetMapping(path="/visitor/verfiy/{token}")
+	@GetMapping(path="/visitor/verify/{token}")
 	public  ResponseEntity<Object> verifyVisitorByCode (@PathVariable String token) throws ClassNotFoundException, SQLException{
 		Visitor visitor =visitorService.verifyVisitor(token);
 			return ApiResponseHandler.buildResponse(ApiResponseStatus.SUCCESS, HttpStatus.OK, ApiMessages.FETCHED,  visitor);
